@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+{% block contenido %}
+<div id='fb-root'></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = '//connect.facebook.net/es_ES/all.js#xfbml=1&appId=272580679486692';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+	<div id='resultados'>
+		{% for platillo in platillos %}
+			<div class='vista_platillo'>
+				
+				<!-- Imagen y precio -->
+				
+				<div class='imagen_platillo' id='imagen_{{platillo.id}}'>
+					<a href='/{{platillo.empresa}}/{{platillo.slug}}'>
+						<img src='{{MEDIA_URL}}{{platillo.fotografia}}' alt='{{platillo.nombre_platillo}}' title='{{platillo.nombre_platillo}}' />
+					</a>
+					<p>${{platillo.precio}}</p>
+				</div>
+
+				<!-- Detalles de nombre y horario-->
+
+				<div class='detalles'>
+					<p class='negocio'><a href='/{{platillo.usuario}}' title='{{platillo.empresa}}'>{{platillo.usuario}}</a></p>
+					<p class='nombre_platillo'><a href='/{{platillo.usuario}}/{{platillo.slug}}'>{{platillo.nombre_platillo}}</a></p>
+					<!--
+						<p class='sabor' style='background: #fff url({{STATIC_URL}}img/estrellas-4.png) 80px 4px no-repeat !important;'>Sabor</p>
+					-->
+					<p class='ver_todos'>
+						<a href='/{{platillo.usuario}}/{{platillo.slug}}' title='Ver más'>Ver más</a>
+						<img src='{{STATIC_URL}}img/agregar.png' alt='Agregar al Pedido' class='add' id='{{platillo.id}}' />
+					</p>
+				</div>
+
+				<!-- Datos del restaurante -->
+
+				<div class='datos'>
+					<p class='horario' title='Horario del d&iacute;a de hoy'>{{platillo.hora_abre}} a {{platillo.hora_cierra}}</p>
+					<p class='mapa'><a href='#'>Ubicaci&oacute;n</a></p>
+					<div class='varios'>
+						<p class='comentarios' title='Comentarios' style='width: 30px;'>
+							{{platillo.id}}
+							<fb:comments-count http://localhost:8000/platillo/{{platillo.id}}></fb:comments-count>
+						</p>
+						<p class='moto' title='Enrega a Domicilio'>Si</p>
+						<p class='puntos' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
+					</div>
+				</div>
+			</div>
+		{% empty %}
+			<p>No hay nada!</p>
+		{% endfor %}
+
+	</div>
+
+{% endblock %}

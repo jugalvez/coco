@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+	<link rel='stylesheet' type='text/css' href='{{STATIC_URL}}css/login.css'>
+{% endblock %}
+
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+   
+{% block contenido %}
+	<section id='contenedor-login'>
+		<div id='cabecera_login'>
+			<h2>Iniciar Sesión</h2>
+		</div>
+		<form class='formulario' name='loginForm' id='loginForm' method='post' action='.'>{% csrf_token %}
+			<div class='datos'>			
+				<input type='text' name='usuario' placeholder='Usuario' class='input username' required />
+				<input type='password' name='password' placeholder='Contraseña' class='input password' required />
+			</div>
+			<div class='acciones'>		
+				<input type='submit' name='submit' value='Iniciar Sesión' class='botonE' />
+			</div>
+			<div class='opc'>
+				<ul>
+				    <li><a href='#'>¿Perdiste la Contraseña?</a></li>
+				    <li><a href='/registro'>Regístate Aquí</a></li>
+			  	</ul>
+			</div>
+		</form>
+	</section>
+{% endblock %}

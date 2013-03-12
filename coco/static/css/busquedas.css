@@ -1,0 +1,137 @@
+#resultados{
+	border-right: 1px solid #dbd5c8;
+	float: left;
+	min-height: 1100px;
+	width: 673px;
+}
+
+.vista_platillo{
+	border-bottom: 1px solid #dbd5c8;
+	float: left;
+	height: 110px;
+	padding: 25px 0 25px 20px;
+	width: 654px;
+}
+
+.imagen_platillo{
+	float: left;
+	height: 115px;
+	width: 106px;
+	overflow: hidden;
+}
+
+.imagen_platillo img{
+	border: 1px solid #DBD5C8;
+	height: 70px;
+	padding: 2px;
+	width: 100px;
+}
+
+.imagen_platillo p{
+	color: #687b30;
+	font-size: 24px;
+	float: left;
+	margin-top: 4px;
+	text-align: center;
+	width: 95px;
+}
+
+.detalles{
+	float: left;
+	line-height: 2.2em;
+	margin-left: 30px;
+	margin-top: -10px;
+	width: 263px;
+}
+
+.detalles p{
+	margin: 0;
+	padding: 0;
+	line-height: 2.2em;
+}
+
+.datos p{
+	margin: 0.4em 0;
+	line-height: 2.3em;
+}
+
+.detalles .negocio a{
+	color: #687b30;
+	font-size: 18px;
+}
+
+.detalles .nombre_platillo a{
+	color: #de8240;
+	font-size: 18px;
+}
+
+.detalles .sabor{
+	color: #de8240;
+	font-size: 15px;
+}
+
+.detalles .ver_todos{
+	display: none;
+}
+
+.detalles .ver_todos a{
+	border-bottom: 2px dotted #de8240;
+	color: #de8240;
+	font-size: 15px;	
+	float: left;
+	line-height: 1.5em;
+}
+
+.detalles .ver_todos img{
+	margin: 5px 0 0 80px;
+}
+
+.datos{
+	color: #687b30;
+	font-size: 15px;
+	float: left;
+	line-height: 2.3em;
+	margin-top: -10px;
+	width: 250px;
+}
+
+.datos .horario, .mapa, .comentarios, .moto, .puntos{
+	padding-left: 30px;
+}
+
+.datos .horario{
+	background: url(../img/iconos.png) 0 4px no-repeat;
+}
+
+.datos .mapa{
+	background: url(../img/iconos.png) 0 -27px no-repeat;
+}
+
+.datos .mapa a{
+	border-bottom: 1px dotted #999;
+	color: #687b30;
+	padding-bottom: 1px;
+}
+
+.datos .comentarios{
+	background: url(../img/iconos.png) 0 -56px no-repeat;
+}
+
+.datos .moto{
+	background: url(../img/iconos.png) 0 -84px no-repeat;	
+}
+
+.datos .puntos{
+	display: none;
+	background: url(../img/iconos.png) 0 -112px no-repeat;	
+}
+
+.datos .varios > p{
+	float: left;
+	margin-left: 0 10px 0 0;
+	width: 35px;
+}
+
+.add{
+	cursor: pointer;
+}

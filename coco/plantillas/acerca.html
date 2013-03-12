@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/acerca.css">
+{% endblock %}
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+{% block contenido %}
+	<div id='acerca'>
+		<h2>Acerca de</h2>
+
+		<h3>¿Que es CocoScore?</h3>
+		<p>
+			Es un sitio enfocado principalmente para los restaurantes PyMEs, donde puedan anunciar sus platillos; creando un menú en línea, y por medio de búsquedas el cliente pueda comparar los precios de los diversos establecimientos para elegir en cual de ellos comprar.
+		</p>
+	</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+#acerca{
+	font-size: 1em;
+	font-family: arial;
+	line-height: 1.6em;
+	margin: 20px auto;
+	min-height: 500px;
+	width: 900px;
+}
+
+#lateral{
+	display: none;
+}
+
+h2{
+	color: #de8240;
+	font-size: 35px;
+	margin-bottom: 20px;
+}
+
+h3{
+	color: #687B30;
+	font-size: 25px;
+	margin-bottom: 20px;
+}
+
+p{
+	font-size: 15px;
+	margin-bottom: 20px;
+	width: 800px;
+}

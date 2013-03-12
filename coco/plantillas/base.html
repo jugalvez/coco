@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7 ]> <html lang="es" class="no-js ie6 lt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="es" class="no-js ie7 lt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="es" class="no-js ie8 lt8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="es" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="es" class="no-js"> <!--<![endif]-->
+
+<head>
+	<title>Coco Score {% block titulo %}{% endblock %}</title>
+	<meta charset="UTF-8" />
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<style type="text/css">
+		body{
+			background: url({{STATIC_URL}}img/bg.jpg) 0 0 repeat !important;
+		}
+	</style>
+	<![endif]-->	
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/general.css">
+	<link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/ui-lightness/jquery-ui-1.8.22.custom.css">
+	<link rel='stylesheet' type='text/css' href='{{STATIC_URL}}css/busquedas.css'>
+	<link href='http://fonts.googleapis.com/css?family=Boogaloo' rel='stylesheet' type='text/css'>
+
+	{% block css %}{% endblock %}
+
+	<script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.6.4.js"></script>
+	<script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.22.custom.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ciudades = [
+				"Aguascalientes",
+				"Baja California",
+				"Baja California Sur",
+				"Campeche",
+				"Chiapas",
+				"Chihuahua",
+				"Coahuila",
+				"Colima",
+				"Durango",
+				"Guanajuato",
+				"Guerrero",
+				"Hidalgo",
+				"Jalisco",
+				"CD. de México",
+				"Michoacán",
+				"Morelos",
+				"Nayarit",
+				"Nuevo León",
+				"Oaxaca",
+				"Puebla",
+				"Querétaro",
+				"Quintana Roo",
+				"San Luis Potosí",
+				"Sinaloa",
+				"Sonora",
+				"Tabasco",
+				"Tamaulipas",
+				"Tlaxcala",
+				"Veracruz ",
+				"Yucatán",
+				"Zacatecas"
+			];
+
+			$("#id_ciudad").autocomplete({
+				source: ciudades
+			});
+
+			// Functions for buy
+
+			$('.add').click(function(){
+				
+				id = $(this).attr('id');
+/*
+			resp = $.getJSON('/ajax/'+id, function(data){
+			           $('#total .suma').text(data[0].fields.precio);
+			        }
+		    );
+*/
+	    		$.post('/ajax/'+id, function(datos){
+	    			$('#total .suma').text(datos[0].fields.precio)
+	    		})
+
+/*
+				if (cantidad<10)
+	    			$('#pedidos span').html('&nbsp;'+cantidad);
+	    		else
+	    			$('#pedidos span').html(cantidad);
+*/
+			});
+		});
+	</script>
+
+</head>
+<body>
+	<div id='contenedor'>
+		<div id='cabecera'>
+			<h1><a href="/"><span>CocoScore Comida Online</span></a></h1>
+			<div id='busqueda'>
+
+				{% block busqueda %}{% endblock %}
+			</div>
+
+			<div id='cabecera_abajo'>
+				<ul id='menu'>
+					<li><a href='/buscar'>Acerca de</a></li>
+					<li><a href='#' class='separador'>Restauranteros</a></li>
+					<li><a href='#'>C&oacute;mo funciona</a></li>
+					<li><a href='#' class='separador'>Privacidad</a></li>
+					<li><a href='#'>Contacto</a></li>
+				</ul>
+
+				<div>
+					{% if not user.is_anonymous %}
+						<a href='/salir' id='registro' style='margin: 0 !important;'>Cerrar Sesión</a>
+						<a href='/panel/datos' id='registro' style='margin: 0 38px !important;'>Mi Cuenta</a>
+
+					{% else %}
+
+						<a href='/registro' id='registro'>Registrate</a>
+						<a href='/login' id='loggin'>Iniciar Sesión </a>
+
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div id='centro'>
+			{% block menu_panel %}{% endblock %}
+
+			{% block contenido %}{% endblock %}
+
+			<div id='lateral'>
+				<div id='bolsa'>
+					<p id='pedidos'>
+						<span>&nbsp;0</span> Pedidos
+					</p>
+					<p id='total'>
+						Total
+						<span>$<span class='suma'>0</span></span>
+					</p>
+				</div>
+				<div id='adss'>
+
+					<img src='{{STATIC_URL}}img/bb.jpg' />
+
+				</div>
+			</div>
+		</div>
+
+		<div id='pie'>
+			CocoScore.com
+		</div>
+	</div>
+</body>
+</html>

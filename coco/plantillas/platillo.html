@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block titulo%} - {{dato.nombre_platillo}} {% endblock%}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/platillo.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/skins/tango/skin.css" />
+	<script type="text/javascript" src="{{STATIC_URL}}js/jquery.jcarousel.js"></script>
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+		    jQuery('#mas-platillos').jcarousel();
+		});
+	</script>	
+{% endblock %}
+
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+
+{% block contenido %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1&appId=272580679486692";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+	<div id='todo'>
+		<div id='centrar'>
+			<div id='cabecera_platillo'>
+				<h2 style='background: #fff url({{MEDIA_URL}}{{dato.empresa.logotipo}}) 0 0 no-repeat;'>
+					<a href='/sitio/{{dato.empresa.id}}' title='{{dato.empresa}}'><span>{dato.empresa}</span></a>
+				</h2>
+			<!--	<p id='slogan'>Ex Finca de adobe, la mejor opcion en carnitas de todo colima. y nu noic}asdfa a da</p> -->
+				<h3>{{dato.nombre_platillo}}</h3>
+			</div>
+			
+			<div id='detalles'>
+				<img src='{{MEDIA_URL}}{{dato.fotografia}}' alt='{{dato.nombre_platillo}}' />
+				<div id='datos'>
+					<p class='mapa info'><span></span>
+						{% for dir in lugar %}
+							{{ dir.direccion }}<br />{{ dir.municipio }}, {{ dir.estado }}, M&eacute;xico<br />
+						{% endfor %}
+					</p>
+					<!--
+						<p class='comentarios info'><dfn title='Comentarios'>54</dfn></p>
+					-->
+					<p class='horario info' style='width: 180px; margin-left: 0;' title='Horario del d&iacute;a de hoy'>
+						{% for h in hora %}
+							{{ h.hora_abre }} a {{ h.hora_cierra }}
+						{% endfor %}
+					</p>
+					<p class='moto info' title='Enrega a Domicilio'>Si</p>
+					<p class='puntos info' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
+
+						<p class='calificaion' id='calif-sabor'>Sabor</p>
+						<p class='calificaion' id='calif-precio'>Precio</p>
+						<p class='calificaion' id='calif-entrega'>Tiempo de entrega</p>
+
+
+					<p id='precio'>${{dato.precio}}</p>
+					<div id='agregar'>
+						Cantidad <input type='text' value='1' name='cantidad' id='cantidad' />
+						<img src='{{STATIC_URL}}img/agregar.png' alt='Agrear al Pedido' id='add'class='add' />
+					</div>
+				</div>
+			</div>
+
+			<div id='redes'>
+				*Compra m&iacute;nima de ${{dato.empresa.compra_minima}} 
+				<div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-via="cocoscore" data-lang="es" data-dnt="true">Twittear</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>			
+
+			</div>
+
+			<p id='descripcion'>
+				{{dato.descripcion}}
+			</p>
+
+
+
+
+			<h3 class='h3'>Comentarios</h3>
+
+			<div class="fb-comments" data-href="http://localhost:8000/platillo/{{dato.id}}" data-num-posts="2" data-width="620"></div>
+
+		</div>
+	</div>
+{% endblock %}

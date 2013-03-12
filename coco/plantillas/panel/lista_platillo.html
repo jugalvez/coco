@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/login.css">
+	<style type="text/css">
+		h3 a{
+			color: #00f;
+			display: block;
+			float: right;
+			margin: 2em 4em 0 0;
+		}
+
+		table{
+			float: left;
+			font-family:  arial;
+			font-size: .9em;
+			margin: 2em 0;
+			width: 670px;
+		}
+
+		table tr{
+			border-bottom: 1px solid #999;
+			text-align: center;
+		}
+
+		table tr:hover{
+			background-color: #f9facc;
+		}
+
+		table td{
+			padding: 1em 0.8em;
+		}
+
+		table .imagen{
+			text-align: center;
+			width: 150px;
+		}
+
+		table .nombre{
+			text-align: justify;
+		}
+
+	</style>
+{% endblock %}
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+{% block menu_panel %}
+	{% include 'panel/menu_panel.html' %}
+{% endblock %}
+
+{% block contenido %}
+	<div id='cabecera_login'>
+		<h2>Mis Platillos</h2>
+	</div>
+
+	<h3><a href="/panel/platillos/nuevo">Agregar Nuevo Platillo</a></h3>
+
+
+	<table>
+		{% for plato in lista %}
+
+			<tr>
+				<td class='imagen'>
+					<img src='{{MEDIA_URL}}{{ plato.fotografia }}' width='100px' />
+				</td>
+
+				<td class='nombre'>
+					{{ plato.nombre_platillo }}
+				</td>
+
+				<td>
+					${{ plato.precio }}
+				</td>
+
+				<td>
+					{% if plato.estatus %}
+						Activo
+					{% else %}
+						Inactivo
+					{% endif %}
+				</td>
+
+				<td>
+					<a href='/panel/platillos/editar/{{ plato.id }}'>
+						<img src='{{ STATIC_URL }}img/edit.png' />
+					</a>
+				</td>
+
+				<td>
+					<img src='{{ STATIC_URL }}img/delete.png' />
+				</td>
+			</tr>
+
+		{% endfor %}
+	</table>
+{% endblock %}
+

@@ -1,0 +1,274 @@
+/*
+	Estilos generales de elementos
+*/
+
+body{
+	background: url(../img/bg-top.png) 0 0 repeat-x, url(../img/bg.jpg) 0 0 repeat;
+	font-family: 'Boogaloo', cursive;
+}
+
+*{
+	outline: 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+h1{
+	background: url(/static/img/logo.png) 0 0 no-repeat;
+	float: left;
+	height: 100px;
+	width: 192px;
+}
+
+h1:hover{
+	background-position: 0 2px;
+}
+
+h1 a{
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+h1 span{
+	display: none;
+}
+
+/*
+	Estilos Cabecera
+*/
+
+#contenedor{
+	//border: 1px solid #999;
+	height: auto;
+	margin: 20px auto;
+	width: 960px;
+}
+
+#cabecera{
+	border-bottom: 2px dashed #9d8651;
+	float: left;
+	padding-bottom: 0px;
+}
+
+
+#busqueda{
+	float: right;
+	width: 510px;
+}
+
+#busqueda_caja{
+	float: left;
+	font-size: 18px;
+	padding: 4px 4px 0px 5px;
+	height: 43px;
+	margin: 5px 0 0 30px;
+	width: 464px;	
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+
+	-webkit-box-shadow: #666 0px 0px 0px;
+	-moz-box-shadow: #666 0px 0px 0px;
+	box-shadow: #666 0px 0px 0px;
+	background: #adcb3b;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#adcb3b), to(#768d2c));
+	background: -webkit-linear-gradient(#adcb3b, #768d2c);
+	background: -moz-linear-gradient(#adcb3b, #768d2c);
+	background: -ms-linear-gradient(#adcb3b, #768d2c);
+	background: -o-linear-gradient(#adcb3b, #768d2c);
+	background: linear-gradient(#adcb3b, #768d2c);
+	-pie-background: linear-gradient(#adcb3b, #768d2c);
+}
+
+#cubiertos{
+	float: left; 
+	margin: 8px 0 0 10px;
+	border-right: 2px dashed #333;
+	padding-right: 10px;
+}
+
+#busqueda_caja div{
+	background: #f6fbe9;
+	float: left;
+	margin-left: 10px;
+
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+
+#id_platillo, #id_ciudad, #pais{
+	background-color: #f6fbe9;
+	border: 0;
+	color: #febf00;
+	font-weight: bold;
+	font-size: 95%;
+	height: 35px;
+	padding:  2px 3px 2px 8px;
+	margin-right: 0px;
+
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;	
+}
+
+#id_platillo{
+	width: 166px;
+}
+
+#id_ciudad{
+	width: 80px;
+}
+
+#pais{
+	width: 60px;
+}
+
+#lupa{
+	display: block;
+	float: right;
+	margin: 8px 3px 0 4px;
+	width: 24px;
+	height: 24px;
+}
+
+#loggin{
+	border-bottom: 2px solid #a3501a;
+	color: #a3501a;
+	display: inline-block;
+	font-size: 18px;
+	padding: 20px 0 1px 4px;
+	vertical-align: top;
+}
+
+#registro{
+	border-bottom: 2px solid #a3501a;
+	color: #a3501a;
+	display: inline-block;
+	font-size: 18px;
+	margin: 0 25px 0 50px;
+	padding: 20px 0 1px 4px;
+	vertical-align: top;
+}
+
+#cabecera_abajo{
+	float: left;
+	margin: 35px 0 0 0;
+	width: auto;
+}
+
+#cabecera_abajo div{
+	float: right;
+	margin-top: -10px;
+}
+
+
+
+
+/*
+	Estilos Menu
+*/
+
+#menu{
+	float: left;
+	font-size: 1em;
+	width: 490px;
+}
+
+#menu li{
+	display: block;
+	float: left;
+}
+
+#menu li a{
+	color: #58524b;
+	display: block;
+	padding: 0 15px;	
+}
+
+.separador{
+	border-left: 1px solid #58524b;
+	border-right: 1px solid #58524b;
+}
+
+/*
+	Estilos Centro y Lateral
+*/
+
+#centro{
+	background-color: #fff;
+	border: 1px solid #dbd5c8;
+	float: left;
+	margin-top: 30px;
+	min-height: 600px;
+	width: 959px;
+}
+
+
+
+#lateral{
+	background: #fff url(../img/timbre.png) 1px 139px no-repeat;
+	float: right;
+	width: 285px;
+	min-height: 500px;
+}
+
+#lateral #bolsa{
+	background: #fff url(../img/bolsa.png) 25px 0 no-repeat;
+	float: left;
+	height: 106px;
+	margin: 25px 0;
+	width: 284px;
+}
+
+#lateral #pedidos, #lateral #total{
+	color: #58524b;
+	float: right;
+	font-size: 18px;
+	margin-top: 15px;
+	position: relative;
+	width: 120px;
+}
+
+#lateral #pedidos{
+	padding-left: 60px;	
+}
+
+#lateral #total{
+	margin-top: 10px;
+	width: 170px;
+}
+
+#lateral #total span{
+	color: #687b30;
+	font-size: 30px;
+}
+
+#lateral #pedidos span{
+	color: #e6650a;
+	font-size: 55px;
+	position: absolute;
+	top: -25px;
+	left: 0;
+}
+
+
+#pie{
+	background-color: #687b30;
+	clear: both;
+	float: left;
+	height: 80px;
+	margin: 5px 0 5px 0;
+	width: 960px;
+}
+
+
+#adss{
+	float: left;
+	margin: 50px 15px;
+}

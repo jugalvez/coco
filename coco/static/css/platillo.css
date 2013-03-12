@@ -1,0 +1,213 @@
+h2{
+	float: left;
+	height: 98px;
+	margin-right: 20px;
+	overflow: hidden;
+	width: 241px;
+}
+
+h2 a{
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+h2 span{
+	display: none;
+}
+
+h3{
+	color: #de8240;
+	font-size: 25px;
+	float: left;
+	margin: 35px 0 30px 0;
+	width: 360px;
+}
+
+.twitter-share-button{
+	float: right;
+	width: 100px !important;
+}
+
+ .fb-like{
+	float: right;
+}
+
+#todo{
+	border-right: 1px solid #dbd5c8;
+	float: left;
+	min-height: 1100px;
+	width: 673px;
+}
+
+#centrar{
+	margin: 15px auto;
+	width: 637px;
+}
+
+#cabecera_platillo{
+	float: left;
+	height: 98px;
+	margin-bottom: 10px;
+	width: 637px;
+}
+
+#cabecera_platillo #slogan{
+	color: #687b30;
+	float: left;
+	font-size: 16px;
+	margin-bottom: 30px;
+	width: 370px;
+}
+
+#detalles{
+	float: left;
+	width: 657px;
+}
+
+#detalles > img{
+	border: 1px solid #dbd5c8;
+	float: left;
+	height: 287px;
+	margin-right: 10px;
+	padding: 3px;
+	width: 413px;
+}
+
+#datos{
+	float: left;
+	margin-top: -8px;
+	width: 210px;
+}
+
+#datos .info{
+	color: #687b30;
+	font-size: 15px;
+	margin: 2px 0;
+	padding: 5px 0 5px 28px;
+	position: relative;
+}
+
+#datos .mapa{
+	padding-left: 26px;
+}
+
+#datos .mapa span{
+	background: #fff url(../img/iconos.png) 0 -33px no-repeat;
+	display: block;
+	height: 25px;
+	position: absolute;
+	left: -8px;
+	width: 25px;
+}
+
+#datos .comentarios{
+	background: #fff url(../img/iconos.png) -4px -57px no-repeat;
+	float: left;
+}
+
+#datos .horario{
+	background: #fff url(../img/iconos.png) -3px 2px no-repeat;
+	float: left;
+	margin-left: 25px;
+}
+
+#datos .moto{
+	background: #fff url(../img/iconos.png) -3px -83px no-repeat;
+	float: left;	
+}
+
+#datos .puntos{
+	background: #fff url(../img/iconos.png) -3px -112px no-repeat;
+	float: left;	
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+#datos .calificaion{
+	color: #de8240;
+	float: left;
+	font-size: 14px;
+	height: 20px;
+	margin: 5px 0;
+	padding-top: 5px;
+	width: 195px;
+}
+
+#datos #calif-sabor, #calif-precio, #calif-entrega{
+	background: #fff url(../img/estrellas-4.png) 100px 3px no-repeat;
+}
+
+#datos #precio{
+	color: #687b30;
+	font-size: 35px;
+	float: left;
+	margin: 0 0 5px 0;
+}
+
+#datos #agregar{ 
+	color: #de8240;
+	font-size: 15px;
+	float: left;
+	height: 20px;
+	padding-top: 10px;
+	position: relative;
+	text-align: baseline;
+	width: 190px;
+}
+
+#datos #agregar #cantidad{
+	color: #afa07b;
+	font-family: 'Boogaloo', cursive;
+	font-size: 18px;
+	left: 60px;
+	padding: 0 4px 0 0px;
+	position: absolute;
+	text-align: center;
+	top: 0px;
+	width: 25px;
+
+    border: 0 1px 1px 0 solid #f2f3f3;
+	border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+	-o-border-radius: 4px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,.1) inset, 0 2px 3px #e4e6e6 inset;
+    -moz-box-shadow: 2px 2px 3px rgba(0,0,0,.1) inset, 0 2px 3px #e4e6e6 inset;
+    -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,.1) inset, 0 2px 3px #e4e6e6 inset;
+    -o-box-shadow: 2px 2px 3px rgba(0,0,0,.1) inset, 0 2px 3px #e4e6e6 inset;
+}
+
+#datos #agregar #add{
+	cursor: pointer;
+	left: 110px;
+	position: absolute;
+	top: 0px;
+}
+
+#redes{
+	color: #de8240;
+	font-size: 15px;
+	float: left;
+	margin: 2px;
+	position: relative;
+	width: 420px;
+}
+
+#redes img{
+	margin-left: 60px;
+}
+
+#descripcion{
+	color: #494644;
+	float: left;
+	font-family: tahoma, arial, verdana;
+	font-size: 14px;
+	line-height: 1.5em;
+	letter-spacing: 1px;
+	margin: 30px 0 0;
+}
+
+.h3{
+	color: #687B30;
+}
