@@ -10,6 +10,13 @@
 			margin: 2em 4em 0 0;
 		}
 
+		#leyenda{
+			display: block;
+			float: left;
+			font-family: tahoma, arial, verdana;
+			margin: 1em 0;
+		}
+
 		table{
 			float: left;
 			font-family:  arial;
@@ -49,6 +56,9 @@
 
 	<h3><a href="/panel/sucursales/nuevo">Agregar Nueva Sucursal</a></h3>
 
+	<p id='leyenda'>
+		Agrega todas tus sucursales, incluyendo la matriz.
+	</p>
 
 	<table>
 		{% for sucursal in lista %}

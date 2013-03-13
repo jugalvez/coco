@@ -30,4 +30,4 @@ class SucursalForm(ModelForm):
 class PlatilloForm(ModelForm):
 	class Meta:
 		model = Platillo
-		exclude = ('usuario', 'slug')
+		exclude = ('emrpesa', 'slug')

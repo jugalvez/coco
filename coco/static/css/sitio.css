@@ -44,11 +44,11 @@ h3{
 #centrar{
 	margin: 15px auto;
 	width: 637px;
+	overflow: auto;
 }
 
 #cabecera_platillo{
 	float: left;
-	height: 98px;
 	margin-bottom: 5px;
 	width: 637px;
 }
@@ -57,7 +57,7 @@ h3{
 	color: #687b30;
 	float: left;
 	font-size: 16px;
-	margin-top: 79px;
+	margin-top: 50px;
 	width: 370px;
 }
 
@@ -65,8 +65,8 @@ h3{
 	color: #de8240;
 	font-size: 15px;
 	float: left;
-	margin: 0px;
-	position: relative;
+	margin: 0;
+	margin-left: -40px;
 	width: 240px;
 }
 
@@ -146,17 +146,20 @@ h3{
 .menu{
 	color: #de8240;
 	float: left;
-	margin: 20px 0 20px 20px;
+	margin: 0px 0 0px 20px;
 	width: 613px;
 }
 
 .menu .submenu{
 	border-bottom: 1px solid #e7e7e7;
 	float: left;
-	margin: 10px 0 5px 0;
-	padding-bottom: 10px;
+	margin: 0px 0 0px 0;
+	padding: 20px 0;
 }
 
+.menu .submenu:hover{
+	background-color:  #f6fae9;
+}
 .menu .foto-mini{
 	float: left;
 	height: 77px;	
@@ -208,12 +211,16 @@ h3{
 	float: right;
 	font-size: 25px;
 	position: absolute;
-	top: 0;
+	top: -15px;
 	left: 405px;
 	text-align: right;
 	width: 85px;
 }
 
+.menu .indice .descripcion{
+	float: left;
+	margin: 0;
+}
 
 .menu .agregar{
 	color: #de8240;

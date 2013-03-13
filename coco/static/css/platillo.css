@@ -1,7 +1,7 @@
 h2{
 	float: left;
 	height: 98px;
-	margin-right: 20px;
+	margin: 0 20px 0 0;
 	overflow: hidden;
 	width: 241px;
 }
@@ -20,7 +20,7 @@ h3{
 	color: #de8240;
 	font-size: 25px;
 	float: left;
-	margin: 35px 0 30px 0;
+	margin: 20px 0 10px 0;
 	width: 360px;
 }
 
@@ -48,7 +48,7 @@ h3{
 #cabecera_platillo{
 	float: left;
 	height: 98px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	width: 637px;
 }
 
@@ -66,7 +66,7 @@ h3{
 }
 
 #detalles > img{
-	border: 1px solid #dbd5c8;
+	border: 1px solid #ccc;
 	float: left;
 	height: 287px;
 	margin-right: 10px;
@@ -78,6 +78,10 @@ h3{
 	float: left;
 	margin-top: -8px;
 	width: 210px;
+}
+
+#datos p{
+	margin: 0.5em 0 !important;
 }
 
 #datos .info{
@@ -143,6 +147,7 @@ h3{
 	font-size: 35px;
 	float: left;
 	margin: 0 0 5px 0;
+	width: 100%;
 }
 
 #datos #agregar{ 
@@ -189,7 +194,7 @@ h3{
 	color: #de8240;
 	font-size: 15px;
 	float: left;
-	margin: 2px;
+	margin: 15px 2px 2px;
 	position: relative;
 	width: 420px;
 }
@@ -202,10 +207,11 @@ h3{
 	color: #494644;
 	float: left;
 	font-family: tahoma, arial, verdana;
-	font-size: 14px;
+	font-size: 15px;
 	line-height: 1.5em;
-	letter-spacing: 1px;
+	letter-spacing: 0.1em;
 	margin: 30px 0 0;
+	width: 100%;
 }
 
 .h3{

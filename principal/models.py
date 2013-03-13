@@ -19,8 +19,8 @@ class Empresa(models.Model):
 	slogan =  models.CharField(max_length = 250, null = True, blank = True, verbose_name = 'Eslogan')
 	logotipo = models.ImageField(upload_to = 'logos', null = True, blank = True)
 	descripcion = models.TextField(verbose_name = 'Descripción')
-	compra_minima = models.FloatField(verbose_name = 'Compra Mínima')
-	costo_envio = models.FloatField(verbose_name = 'Costo de Envío')
+	compra_minima = models.FloatField(verbose_name = 'Compra Mínima', default = 0)
+	costo_envio = models.FloatField(verbose_name = 'Costo de Envío', default = 0)
 
 	def save(self, *args, **kwargs):
 		self.slug = defaultfilters.slugify(self.empresa)
@@ -31,7 +31,7 @@ class Empresa(models.Model):
 
 
 class Sucursal(models.Model):
-	usuario = models.ForeignKey(User)
+	empresa = models.ForeignKey(Empresa)
 	calle = models.CharField(max_length = 200, null = False)
 	colonia = models.CharField(max_length = 200, null = False)
 	municipio = models.CharField(max_length = 30, null = False)
@@ -42,7 +42,7 @@ class Sucursal(models.Model):
 
 
 class Platillo(models.Model):
-	usuario = models.ForeignKey(User)
+	empresa = models.ForeignKey(Empresa)
 	nombre_platillo = models.CharField(max_length = 100, null = False, blank = False, verbose_name = 'Nombre del Platillo')
 	slug = models.SlugField(max_length = 80, unique = False)
 	fotografia = models.ImageField(upload_to = 'platillos', verbose_name = 'Fotografía')

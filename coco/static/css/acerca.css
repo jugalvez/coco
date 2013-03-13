@@ -1,6 +1,7 @@
 #acerca{
 	font-size: 1em;
-	font-family: arial;
+	font-family: tahoma, arial, verdana;
+	letter-spacing: 0.1em;
 	line-height: 1.6em;
 	margin: 20px auto;
 	min-height: 500px;

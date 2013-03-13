@@ -16,46 +16,45 @@
 
 	<div id='resultados'>
 		{% for platillo in platillos %}
-			<div class='vista_platillo'>
-				
-				<!-- Imagen y precio -->
-				
-				<div class='imagen_platillo' id='imagen_{{platillo.id}}'>
-					<a href='/{{platillo.empresa}}/{{platillo.slug}}'>
+			<a href='/negocio/{{platillo.empresa.slug}}/{{platillo.slug}}'>
+				<div class='vista_platillo'>
+					<!-- Imagen y precio -->
+					
+					<div class='imagen_platillo' id='imagen_{{platillo.id}}'>
 						<img src='{{MEDIA_URL}}{{platillo.fotografia}}' alt='{{platillo.nombre_platillo}}' title='{{platillo.nombre_platillo}}' />
-					</a>
-					<p>${{platillo.precio}}</p>
-				</div>
+						<p>${{ platillo.precio }}</p>
+					</div>
 
-				<!-- Detalles de nombre y horario-->
+					<!-- Detalles de nombre y horario-->
 
-				<div class='detalles'>
-					<p class='negocio'><a href='/{{platillo.usuario}}' title='{{platillo.empresa}}'>{{platillo.usuario}}</a></p>
-					<p class='nombre_platillo'><a href='/{{platillo.usuario}}/{{platillo.slug}}'>{{platillo.nombre_platillo}}</a></p>
-					<!--
-						<p class='sabor' style='background: #fff url({{STATIC_URL}}img/estrellas-4.png) 80px 4px no-repeat !important;'>Sabor</p>
-					-->
-					<p class='ver_todos'>
-						<a href='/{{platillo.usuario}}/{{platillo.slug}}' title='Ver más'>Ver más</a>
-						<img src='{{STATIC_URL}}img/agregar.png' alt='Agregar al Pedido' class='add' id='{{platillo.id}}' />
-					</p>
-				</div>
-
-				<!-- Datos del restaurante -->
-
-				<div class='datos'>
-					<p class='horario' title='Horario del d&iacute;a de hoy'>{{platillo.hora_abre}} a {{platillo.hora_cierra}}</p>
-					<p class='mapa'><a href='#'>Ubicaci&oacute;n</a></p>
-					<div class='varios'>
-						<p class='comentarios' title='Comentarios' style='width: 30px;'>
-							{{platillo.id}}
-							<fb:comments-count http://localhost:8000/platillo/{{platillo.id}}></fb:comments-count>
+					<div class='detalles'>
+						<p class='negocio'>{{platillo.empresa}}</p>
+						<p class='nombre_platillo'>{{platillo.nombre_platillo}}</p>
+						<p class='nombre_platillo'><span class='negocio'>Categorías:</span> {{ platillo.tags|slice:':25' }}...</p>
+						<!--
+							<p class='sabor' style='background: #fff url({{STATIC_URL}}img/estrellas-4.png) 80px 4px no-repeat !important;'>Sabor</p>
+						-->
+						<p class='ver_todos'>
+							<img src='{{STATIC_URL}}img/agregar.png' alt='Agregar al Pedido' class='add' id='{{platillo.id}}' />
 						</p>
-						<p class='moto' title='Enrega a Domicilio'>Si</p>
-						<p class='puntos' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
+					</div>
+
+					<!-- Datos del restaurante -->
+
+					<div class='datos'>
+						<p class='horario' title='Horario del d&iacute;a de hoy'>{{ platillo.empresa.horario.hora_abre }} a {{ platillo.empresa.horario.hora_cierra }}</p>
+						<p class='mapa'>Ubicaci&oacute;n</p>
+						<div class='varios'>
+							<p class='comentarios' title='Comentarios' style='width: 30px;'>
+								{{platillo.id}}
+								<fb:comments-count http://localhost:8000/platillo/{{platillo.id}}></fb:comments-count>
+							</p>
+							<p class='moto' title='Enrega a Domicilio'>Si</p>
+							<p class='puntos' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			</a>
 		{% empty %}
 			<p>No hay nada!</p>
 		{% endfor %}

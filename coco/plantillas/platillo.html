@@ -34,11 +34,11 @@
 	<div id='todo'>
 		<div id='centrar'>
 			<div id='cabecera_platillo'>
-				<h2 style='background: #fff url({{MEDIA_URL}}{{dato.empresa.logotipo}}) 0 0 no-repeat;'>
-					<a href='/sitio/{{dato.empresa.id}}' title='{{dato.empresa}}'><span>{dato.empresa}</span></a>
+				<h2 style='background: #fff url({{MEDIA_URL}}{{ dato.empresa.logotipo }}) 0 0 no-repeat;'>
+					<a href='/negocio/{{ dato.empresa.slug }}' title='{{ dato.empresa }}'><span>{{ dato.empresa }}</span></a>
 				</h2>
 			<!--	<p id='slogan'>Ex Finca de adobe, la mejor opcion en carnitas de todo colima. y nu noic}asdfa a da</p> -->
-				<h3>{{dato.nombre_platillo}}</h3>
+				<h3>{{ dato.nombre_platillo }}</h3>
 			</div>
 			
 			<div id='detalles'>
@@ -48,6 +48,7 @@
 						{% for dir in lugar %}
 							{{ dir.direccion }}<br />{{ dir.municipio }}, {{ dir.estado }}, M&eacute;xico<br />
 						{% endfor %}
+						Ver Ubicaciones
 					</p>
 					<!--
 						<p class='comentarios info'><dfn title='Comentarios'>54</dfn></p>
@@ -56,25 +57,28 @@
 						{% for h in hora %}
 							{{ h.hora_abre }} a {{ h.hora_cierra }}
 						{% endfor %}
+						4 a 5
 					</p>
 					<p class='moto info' title='Enrega a Domicilio'>Si</p>
-					<p class='puntos info' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
+
+					<!--
+						<p class='puntos info' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
 
 						<p class='calificaion' id='calif-sabor'>Sabor</p>
 						<p class='calificaion' id='calif-precio'>Precio</p>
 						<p class='calificaion' id='calif-entrega'>Tiempo de entrega</p>
-
+					-->
 
 					<p id='precio'>${{dato.precio}}</p>
-					<div id='agregar'>
-						Cantidad <input type='text' value='1' name='cantidad' id='cantidad' />
-						<img src='{{STATIC_URL}}img/agregar.png' alt='Agrear al Pedido' id='add'class='add' />
-					</div>
+
+				
 				</div>
 			</div>
 
 			<div id='redes'>
-				*Compra m&iacute;nima de ${{dato.empresa.compra_minima}} 
+				<!-- 
+					*Compra m&iacute;nima de ${{dato.empresa.compra_minima}} 
+				-->
 				<div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
 				<a href="https://twitter.com/share" class="twitter-share-button" data-via="cocoscore" data-lang="es" data-dnt="true">Twittear</a>
 				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>			
