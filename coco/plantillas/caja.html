@@ -1,11 +1,9 @@
 <form id='busqueda_caja' action='/buscar/' method='post' autocomplete="off">{% csrf_token %}
 	<img src='{{STATIC_URL}}img/cubiertos.png' id='cubiertos'>
 	<div>
-		{{formulario.platillo}}						
-		<!-- <input type='text' name='platillo' id='platillo' value='Carnitas' placeholder='Tengo ganas de...' /> -->
+		{{formulario.platillo}}
 		en
 		{{formulario.ciudad}}
-		<!-- <input type='text' name='ciudad' id='ciudad' value='Colima' /> -->
 		, <input type='text' name='pais' id='pais' value='M&eacute;xico' readonly='readonly' />
 		
 	</div>

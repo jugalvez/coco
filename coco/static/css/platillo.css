@@ -3,6 +3,7 @@ h2{
 	height: 98px;
 	margin: 0 20px 0 0;
 	overflow: hidden;
+	text-align: center;
 	width: 241px;
 }
 
@@ -65,13 +66,19 @@ h3{
 	width: 657px;
 }
 
-#detalles > img{
-	border: 1px solid #ccc;
+#detalles #foto{
 	float: left;
-	height: 287px;
-	margin-right: 10px;
+	max-height: 287px;
+	min-height: 175px;
+	margin-right: 10px;	
 	padding: 3px;
+	text-align: center;
 	width: 413px;
+}
+
+#detalles #foto img{
+	border: 1px solid #ccc;	
+	padding: 3px;
 }
 
 #datos{
@@ -81,7 +88,7 @@ h3{
 }
 
 #datos p{
-	margin: 0.5em 0 !important;
+	margin: 0.2em 0 !important;
 }
 
 #datos .info{
@@ -194,7 +201,7 @@ h3{
 	color: #de8240;
 	font-size: 15px;
 	float: left;
-	margin: 15px 2px 2px;
+	margin: 0 2px 2px;
 	position: relative;
 	width: 420px;
 }
@@ -204,16 +211,19 @@ h3{
 }
 
 #descripcion{
+	border-bottom: 1px solid #ccc;
 	color: #494644;
 	float: left;
 	font-family: tahoma, arial, verdana;
 	font-size: 15px;
 	line-height: 1.5em;
 	letter-spacing: 0.1em;
-	margin: 30px 0 0;
+	margin: 30px 0 10px 0;
+	padding-bottom: 2em;
 	width: 100%;
 }
 
 .h3{
 	color: #687B30;
+	margin-bottom: 1em;
 }

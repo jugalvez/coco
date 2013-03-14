@@ -4,6 +4,14 @@
 {% block css %}
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/login.css">
 	<style type="text/css">
+
+		#leyenda{
+			display: block;
+			float: left;
+			font-family: tahoma, arial, verdana;
+			margin: 1em 0;
+		}
+
 		.formulario ul{
 			display: inline-block;
 			font-family: arial;
@@ -79,6 +87,8 @@
 	<div id='cabecera_login'>
 		<h2>Datos del restaurante</h2>
 	</div>
+
+	<p id='leyenda'>Llena este formulario para poder dar de alta tus sucursales y platillos</p>
 
 	<form action='.' method='post' class='formulario' enctype='multipart/form-data'>{% csrf_token %}
 		<ul>

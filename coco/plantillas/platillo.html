@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
+
 {% block titulo%} - {{dato.nombre_platillo}} {% endblock%}
 
 {% block css %}
@@ -34,20 +36,28 @@
 	<div id='todo'>
 		<div id='centrar'>
 			<div id='cabecera_platillo'>
-				<h2 style='background: #fff url({{MEDIA_URL}}{{ dato.empresa.logotipo }}) 0 0 no-repeat;'>
-					<a href='/negocio/{{ dato.empresa.slug }}' title='{{ dato.empresa }}'><span>{{ dato.empresa }}</span></a>
-				</h2>
+				{% thumbnail dato.empresa.logotipo '241x98' as im %}
+					<h2>
+						<a href='/negocio/{{ dato.empresa.slug }}' title='{{ dato.empresa }}'>
+							<span>{{ dato.empresa }}</span>
+							<img src='{{ im.url }}' />
+						</a>
+					</h2>
+				{% endthumbnail %}
 			<!--	<p id='slogan'>Ex Finca de adobe, la mejor opcion en carnitas de todo colima. y nu noic}asdfa a da</p> -->
 				<h3>{{ dato.nombre_platillo }}</h3>
 			</div>
 			
 			<div id='detalles'>
-				<img src='{{MEDIA_URL}}{{dato.fotografia}}' alt='{{dato.nombre_platillo}}' />
+				<div id='foto'>
+					<img src='{{MEDIA_URL}}{{dato.fotografia}}' alt='{{dato.nombre_platillo}}' />
+				</div>
 				<div id='datos'>
 					<p class='mapa info'><span></span>
-						{% for dir in lugar %}
-							{{ dir.direccion }}<br />{{ dir.municipio }}, {{ dir.estado }}, M&eacute;xico<br />
-						{% endfor %}
+						<!-- {% for dir in lugar %}
+								{{ dir.calle }}<br />{{ dir.municipio }}, {{ dir.estado }}, M&eacute;xico<br />
+							{% endfor %}
+						-->
 						Ver Ubicaciones
 					</p>
 					<!--
@@ -57,9 +67,16 @@
 						{% for h in hora %}
 							{{ h.hora_abre }} a {{ h.hora_cierra }}
 						{% endfor %}
-						4 a 5
+						8:00 am a 10:00 pm
 					</p>
-					<p class='moto info' title='Enrega a Domicilio'>Si</p>
+					<p class='moto info' title='Enrega a Domicilio'>
+						{% if dato.empresa.entrega %}
+							Si - $ {{ dato.empresa.costo_envio }}
+						{% else %}
+							No
+						{% endif %}
+					</p>
+
 
 					<!--
 						<p class='puntos info' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
@@ -76,9 +93,9 @@
 			</div>
 
 			<div id='redes'>
-				<!-- 
-					*Compra m&iacute;nima de ${{dato.empresa.compra_minima}} 
-				-->
+				{% if dato.empresa.entrega %}
+					*Compra mínima de ${{dato.empresa.compra_minima}} 
+				{% endif %}
 				<div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
 				<a href="https://twitter.com/share" class="twitter-share-button" data-via="cocoscore" data-lang="es" data-dnt="true">Twittear</a>
 				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>			

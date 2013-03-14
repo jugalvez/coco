@@ -1,4 +1,4 @@
-from principal.models import Empresa, Sucursal, Platillo, Horario, Calificacion_platillo, Calificacion_usuario, Compra, Favorito
+from principal.models import Empresa, Sucursal, Platillo, Horario, Contrato, Calificacion_platillo, Calificacion_usuario, Compra, Favorito
 from principal.forms import BusquedaForm, EmpresaForm, SucursalForm, PlatilloForm, PerfilForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -59,18 +59,18 @@ def platillo(request, restaurant, platillo):
 	empresa = get_object_or_404(Empresa, slug = restaurant)
 	plato = get_object_or_404(Platillo, slug = platillo)
 	#horario = Horario.objects.filter(empresa = plato.usuario)
-	#lugar = Sucursal.objects.filter(empresa = plato.empresa)[:1]
+	lugar = Sucursal.objects.filter(empresa = plato.empresa)[:1]
 	#estrellas = Calificacion_platillo(platillo=plato)
 	#otros = Platillo.objects.filter(empresa=plato.empresa).exclude(pk=id_platillo)
 	formBuscar = BusquedaForm()	
 	#return render_to_response('platillo.html', {'dato': plato, 'hora': horario, 'lugar': lugar, 'estrellas': estrellas, 'otros': otros, 'formulario': formBuscar}, context_instance=RequestContext(request))
-	return render_to_response('platillo.html', {'dato': plato, 'formulario': formBuscar}, context_instance=RequestContext(request))
+	return render_to_response('platillo.html', {'dato': plato, 'formulario': formBuscar, 'lugar': lugar}, context_instance=RequestContext(request))
 
 
 def sitio(request, restaurant):
 	negocio = get_object_or_404(Empresa, slug = restaurant)
 	horario = Horario.objects.filter(empresa = negocio)
-	lugar = Sucursal.objects.filter(empresa = negocio)[:1]
+	lugar = Sucursal.objects.filter(empresa = negocio)
 	formBuscar = BusquedaForm()
 	platillos = Platillo.objects.filter(empresa = negocio)
 	#categorias = Categoria_platillo.objects.filter(platillo=platillos).order_by('nombre_categoria')
@@ -78,7 +78,6 @@ def sitio(request, restaurant):
 
 
 def login(request):
-	
 	formBuscar = BusquedaForm()
 	
 	if request.method == 'POST':
@@ -107,10 +106,8 @@ def registro(request):
 		formRegistro = UserCreationForm(request.POST)
 		if formRegistro.is_valid():
 			formRegistro.save()
-			
-			'''
-				Guardamos el registro, hacemos login y lo enviamos al panel
-			'''
+
+			'''		Guardamos el registro, hacemos login y lo enviamos al panel		'''
 			usuario = request.POST['username']
 			clave = request.POST['password1']
 			
@@ -118,6 +115,14 @@ def registro(request):
 			if acceso is not None:
 				if acceso.is_active:
 					auth_login(request, acceso)
+					
+					'''		Fecha de vencimiento de primera mensualidad		'''
+					hoy = datetime.now()
+					mes = hoy+timedelta(days = 30)
+					quien = User.objects.get(username = usuario)
+					contrato = Contrato(usuario = quien, fecha_fin = mes)
+					contrato.save()
+
 					return HttpResponseRedirect('/panel/datos')
 			else:
 				return HttpResponseRedirect('/login')
@@ -151,18 +156,18 @@ def perfil(request):
 #@login_required(login_url='/login')
 #def horarios(request):
 
+#	return render_to_response('panel/horario.html', context_instance = RequestContext(request))
 
 
 @login_required(login_url='/login')
 def datos_negocio(request):
-	hoy = datetime.now()
-	mes = hoy+timedelta(days = 30)
 
 	formBuscar = BusquedaForm()
 	Qdatos = Empresa.objects.filter(usuario = request.user)
 
 	if request.method == 'POST':
 		if Qdatos:
+			Qdatos = Empresa.objects.get(usuario = request.user)
 			form = EmpresaForm(request.POST, request.FILES, instance = Qdatos)
 		else:
 			usuario = Empresa(usuario = request.user)
@@ -177,7 +182,7 @@ def datos_negocio(request):
 			form = EmpresaForm(instance = Gdatos)
 		else:
 			form = EmpresaForm()
-	return render_to_response('panel/negocio.html', { 'formulario': formBuscar, 'form': form, 'hoy': hoy, 'mes': mes}, context_instance = RequestContext(request))
+	return render_to_response('panel/negocio.html', { 'formulario': formBuscar, 'form': form}, context_instance = RequestContext(request))
 
 
 
@@ -226,9 +231,10 @@ def edita_sucursal(request, id_sucursal):
 
 @login_required(login_url='/login')
 def lista_platillo(request):
-	empresa = Empresa.objects.get(usuario = request.user)
-	listaPlatillo = Platillo.objects.filter(empresa = empresa)
+	
 	formBuscar = BusquedaForm()
+	empresa = Empresa.objects.filter(usuario = request.user)[:1]
+	listaPlatillo = Platillo.objects.filter(empresa = empresa)
 	return render_to_response('panel/lista_platillo.html', { 'formulario': formBuscar, 'lista': listaPlatillo }, context_instance = RequestContext(request))
 
 

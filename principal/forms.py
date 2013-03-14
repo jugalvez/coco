@@ -18,16 +18,16 @@ class PerfilForm(ModelForm):
 class EmpresaForm(ModelForm):
 	class Meta:
 		model = Empresa
-		exclude = ('slug', 'usuario', 'compra_minima', 'costo_envio')
+		exclude = ('slug', 'usuario')
 
 
 class SucursalForm(ModelForm):
 	class Meta:
 		model = Sucursal
-		exclude = ('usuario')
+		exclude = ('empresa')
 
 
 class PlatilloForm(ModelForm):
 	class Meta:
 		model = Platillo
-		exclude = ('emrpesa', 'slug')
+		exclude = ('empresa', 'slug')

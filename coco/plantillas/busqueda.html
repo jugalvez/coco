@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
+
 {% block busqueda %}
 	{% include 'caja.html' %}
 {% endblock %}
@@ -21,7 +23,9 @@
 					<!-- Imagen y precio -->
 					
 					<div class='imagen_platillo' id='imagen_{{platillo.id}}'>
-						<img src='{{MEDIA_URL}}{{platillo.fotografia}}' alt='{{platillo.nombre_platillo}}' title='{{platillo.nombre_platillo}}' />
+						{% thumbnail platillo.fotografia '100x70' crop='center' as im %}
+							<img src='{{ im.url }}' alt='{{platillo.nombre_platillo}}' title='{{platillo.nombre_platillo}}' />
+						{% endthumbnail %}
 						<p>${{ platillo.precio }}</p>
 					</div>
 
@@ -49,7 +53,13 @@
 								{{platillo.id}}
 								<fb:comments-count http://localhost:8000/platillo/{{platillo.id}}></fb:comments-count>
 							</p>
-							<p class='moto' title='Enrega a Domicilio'>Si</p>
+							<p class='moto' title='Enrega a Domicilio'>
+								{% if platillo.empresa.entrega %}
+									Si
+								{% else %}
+									No
+								{% endif %}
+							</p>
 							<p class='puntos' title='Puntos Coco&#39;s, canjeables por art&iacute;culos del sitio'>6 $cs</p>
 						</div>
 					</div>

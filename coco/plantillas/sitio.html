@@ -1,9 +1,52 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
+
 {% block titulo%} - {{negocio.empresa}} {% endblock%}
 
 {% block css %}
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sitio.css">
+	<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>	
+	<script src='{{ STATIC_URL }}js/gmap3.js'></script>
+	<script>
+		$(document).ready(function(){
+			$("#mapa").gmap3({
+				map: {
+    				options: {
+    					center: [19.26499, -103.739518],
+   	   					maxZoom: 14
+    				} 
+ 				},
+ 				marker:{
+ 					values:[
+	 					{% for dir in lugar %}
+	 						{address: "{{dir.estado}}, {{dir.calle}}, {{dir.municipio}}, México", data: "{{dir.calle}}, {{dir.municipio}}, {{dir.estado}}"},
+	 					{% endfor %}
+	 				],
+	 				events:{
+	 					click: function(marker, event, context){
+        						var map = $(this).gmap3("get"),
+          						infowindow = $(this).gmap3({get:{name:"infowindow"}});
+								if (infowindow){
+									infowindow.open(map, marker);
+									infowindow.setContent(context.data);
+								} else {
+									$(this).gmap3({
+								    	infowindow:{
+								        	anchor:marker, 
+								            options:{content: context.data}
+								        }
+								    });
+								}
+						}
+          			}
+				}, 
+			},
+			'autofit');	
+		})
+
+	</script>
+
 {% endblock %}
 
 
@@ -27,10 +70,17 @@
 	<div id='todo'>
 		<div id='centrar'>
 			<div id='cabecera_platillo'>
-				<h2 style='background: #fff url({{MEDIA_URL}}{{negocio.logotipo}}) 0 0 no-repeat;'>
-					<a href='#' title='{{negocio.empresa}}'><span>{{negocio.empresa}}</span></a>
-				</h2>
-				<p id='slogan'>{{negocio.slogan}}</p>
+				{% thumbnail negocio.logotipo '241x98' as im %}
+					<h2>
+						<a href='#' title='{{negocio.empresa}}'>
+							<span>{{negocio.empresa}}</span>
+							<img src='{{ im.url }}' />
+						</a>
+					</h2>
+				{% endthumbnail %}
+				<p id='slogan'>
+					{{negocio.slogan}}
+				</p>
 			</div>
 
 			<div id='redes'>
@@ -41,18 +91,24 @@
 
 			<div id='datos'>
 				<div id='info'>
-					{% for dir in lugar %}
-						<p id='dir'>{{dir.direccion}}<br /> {{dir.municipio}}, {{dir.estado}}, M&eacute;xico</p>
+					{% for dir in lugar|slice:':1' %}
+						<p id='dir'>{{dir.calle}}<br /> {{dir.municipio}}, {{dir.estado}}, M&eacute;xico</p>
 					{% endfor %}
 
 					<p id='horario'>
 						{% for h in horario %}
 							{{h.hora_abre}} - {{h.hora_cierra}}
 						{% endfor %}
-						8 a 10pm
+						8:00 am a 10:30 pm
 					</p>
 
-					<p id='moto'>Si</p>
+					<p id='moto'>
+						{% if negocio.entrega %}
+							Si - ${{ negocio.costo_envio }}
+						{% else %}
+							No
+						{% endif %}
+					</p>
 
 					<p id='desc'>
 						{{negocio.descripcion}}
@@ -70,7 +126,9 @@
 				<a href='/negocio/{{ plato.empresa.slug }}/{{ plato.slug }}'>
 					<div class='menu'>
 						<div class='submenu'>
-							<div class='foto-mini'><img src='{{MEDIA_URL}}{{plato.fotografia}}'  /></div>
+							{% thumbnail plato.fotografia '100x70' crop='center' as im %}
+								<div class='foto-mini'><img src='{{ im.url }}' /></div>
+							{% endthumbnail %}
 							<div class='indice'>
 								<p class='nombre-platillo'>{{ plato.nombre_platillo }}</p>
 								<p class='linea'></p>
