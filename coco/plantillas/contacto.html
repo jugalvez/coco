@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
-
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/login.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/acerca.css">
 	<style type="text/css">
 
 		#leyenda{
@@ -10,12 +9,6 @@
 			float: left;
 			font-family: tahoma, arial, verdana;
 			margin: 1em 0;
-		}
-
-		.formulario{
-			display: inline-block;
-			vertical-align: top;
-			width: 700px;
 		}
 
 		.formulario ul{
@@ -67,43 +60,53 @@
 
 		.acciones{
 			margin-top: -8em;
-			width: 195px !important;
+			text-align: right;
+			width: 445px !important;
 		}
 
 		.botonE{
-			margin-top: -20px !important;			
+			margin-top: -20px !important;
 		}		
 
 	</style>
 {% endblock %}
 
-
 {% block busqueda %}
 	{% include 'caja.html' %}
 {% endblock %}
 
-
-{% block menu_panel %}
-	{% include 'panel/menu_panel.html' %}
-{% endblock %}
-
-
 {% block contenido %}
+	<div id='acerca'>
+		<h2>Contáctanos</h2>
 
-	<div id='cabecera_login'>
-		<h2>Datos del restaurante</h2>
+		<p>
+			¿Tienes dudas o comentarios que hacernos? Puedes contactarnos por cualquiera de estos medios.
+		</p>
+
+		<div>
+			<a href='#' target='_blank'>
+				<img src='{{STATIC_URL}}img/fb.png' width='45' />
+			</a>
+
+			<a href='//twitter.com/CocoScore' target='_blank'>
+				<img src='{{STATIC_URL}}img/tw.png' width='45' />
+			</a>
+		</div>
+
+		<form action='.' method='post' class='formulario'>{% csrf_token %}
+			
+			<ul>
+
+				{{ contacto.as_ul }}
+
+				<li class='acciones'>		
+					<input type='submit' name='submit' value='Enviar' class='botonE' />
+				</li>
+
+			</ul>
+
+		</form>
+
+
 	</div>
-
-	<p id='leyenda'>Llena este formulario para poder dar de alta tus sucursales, horarios y platillos</p>
-
-	<form action='.' method='post' class='formulario' enctype='multipart/form-data'>{% csrf_token %}
-		<ul>
-
-			{{ form.as_ul }}
-		
-			<li class='acciones'>		
-				<input type='submit' name='submit' value='Guardar' class='botonE' />
-			</li>
-		</ul>
-	</form>
 {% endblock %}

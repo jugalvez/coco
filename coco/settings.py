@@ -158,3 +158,12 @@ LOGGING = {
         },
     }
 }
+
+
+# Configuraciones para E-mail
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ceogalco@gmail.com'
+EMAIL_HOST_PASSWORD = 'seogalco85'
+EMAIL_PORT = 587

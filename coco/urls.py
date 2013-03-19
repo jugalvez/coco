@@ -14,7 +14,9 @@ urlpatterns = patterns('',
 
 
 # Vista de visitantes
-    url(r'^$', 'principal.views.acerca'),
+    url(r'^$', 'principal.views.inicio'),
+    url(r'^acerca/$', 'principal.views.acerca'),
+    url(r'^contacto/$', 'principal.views.contacto'),
     url(r'^registro/$', 'principal.views.registro'),
     url(r'^login/$', 'principal.views.login'),
     url(r'^registro/$', 'principal.views.registro'),
@@ -28,7 +30,7 @@ urlpatterns = patterns('',
 # Panel de control Restaurante
     url(r'^panel/perfil/$', 'principal.views.perfil'),
     url(r'^panel/datos/$', 'principal.views.datos_negocio'),
-#    url(r'^panel/horarios/$', 'principal.views.horario'),
+    url(r'^panel/horarios/$', 'principal.views.horario'),
 
 # Panel de control sucursales
     url(r'^panel/sucursales/nuevo/$', 'principal.views.datos_sucursal'),

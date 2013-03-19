@@ -13,13 +13,6 @@ from django_resized import ResizedImageField
 #User.add_to_class('tipo_usuario', models.SmallIntegerField(null = False, blank = False))
 
 
-class Contrato(models.Model):
-	usuario = models.ForeignKey(User)
-	fecha_fin = models.DateTimeField()
-
-	def __unicode__(self):
-		return usuario.username
-
 
 class Empresa(models.Model):
 	usuario = models.ForeignKey(User)
@@ -31,6 +24,8 @@ class Empresa(models.Model):
 	entrega = models.BooleanField(null = False, default = False, verbose_name = 'Entrega a domicilio', help_text = '¿Tienes entrega a domicilio?')
 	compra_minima = models.FloatField(default = 0, verbose_name = 'Compra Mínima', help_text = 'Compra mínina para servicio a domicilio, NO colocar signo de precio $')
 	costo_envio = models.FloatField(verbose_name = 'Costo de Envío', default = 0, help_text = 'Costo de entrega a domicilio, NO colocar signo de precio $')
+	estatus = models.BooleanField(default = True)
+	paquete = models.IntegerField(default = 1)
 
 	def save(self, *args, **kwargs):
 		self.slug = defaultfilters.slugify(self.empresa)
@@ -42,10 +37,20 @@ class Empresa(models.Model):
 
 class Sucursal(models.Model):
 	empresa = models.ForeignKey(Empresa)
+	telefono = models.CharField(max_length = 30, null = True, blank = True, verbose_name = 'Teléfono')
 	calle = models.CharField(max_length = 200, null = False)
 	colonia = models.CharField(max_length = 200, null = False)
 	municipio = models.CharField(max_length = 30, null = False)
 	estado = models.CharField(max_length = 30, null = False, default = 'Colima')
+
+	def __unicode__(self):
+		return self.usuario.username
+
+
+class Contrato(models.Model):
+	empresa = models.ForeignKey(Empresa)
+	fecha_inico = models.DateField()
+	fecha_fin = models.DateField()
 
 	def __unicode__(self):
 		return self.usuario.username
@@ -74,12 +79,16 @@ class Platillo(models.Model):
 
 class Horario(models.Model):
 	empresa = models.ForeignKey(Empresa)
-	dia = models.CharField(max_length = 15)
-	hora_abre = models.CharField(max_length = 10)
-	hora_cierra = models.CharField(max_length = 10)
+	lunes = models.CharField(max_length = 18, blank = True, null = True)
+	martes = models.CharField(max_length = 18, blank = True, null = True)
+	miercoles = models.CharField(max_length = 18, blank = True, null = True, verbose_name = 'Miércoles')
+	jueves = models.CharField(max_length = 18, blank = True, null = True)
+	viernes = models.CharField(max_length = 18, blank = True, null = True)
+	sabado = models.CharField(max_length = 18, blank = True, verbose_name = 'Sábado')
+	domingo = models.CharField(max_length = 18, blank = True, null = True)
 
 	def __unicode__(self):
-		return self.hora_abre
+		return self.lunes
 
 
 class Calificacion_platillo(models.Model):

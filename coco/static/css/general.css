@@ -256,18 +256,47 @@ h1 span{
 	left: 0;
 }
 
-
 #pie{
 	background-color: #687b30;
 	clear: both;
 	float: left;
 	height: 80px;
 	margin: 5px 0 5px 0;
+	width: 100%;
+}
+
+#pie div{
+	margin: 1em auto 0 auto;
+	vertical-align: top;
 	width: 960px;
 }
 
+#pie div a{
+	border-right: 1px solid #fff;
+	color: #fff;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: normal;
+	padding: 0 0.7em;
+	vertical-align: top;
+}
+
+#pie div a:last-child{
+	border: 0; 
+}
+
+#pie p{
+	color: #fff;
+	display: inline-block !important;
+	font-size: 0.8em !important;
+	margin: 0 0 0 21em !important;
+	width: auto;
+	vertical-align: top !important;
+}
 
 #adss{
 	float: left;
 	margin: 50px 15px;
 }
+
+

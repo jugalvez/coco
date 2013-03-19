@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/acerca.css">
+{% endblock %}
+
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+{% block contenido %}
+	<div id='acerca'>
+		<h2>Contáctanos</h2>
+
+		<div>
+			<a href='#' target='_blank'>
+				<img src='{{STATIC_URL}}img/fb.png' width='45' />
+			</a>
+
+			<a href='//twitter.com/CocoScore' target='_blank'>
+				<img src='{{STATIC_URL}}img/tw.png' width='45' />
+			</a>
+		</div>
+
+
+		<p>
+			Tu mensaje ya fue enviado, nos contactaremos a la brevedad  =D
+		</p>
+
+
+
+	</div>
+{% endblock %}

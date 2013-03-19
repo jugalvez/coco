@@ -58,16 +58,44 @@
 								{{ dir.calle }}<br />{{ dir.municipio }}, {{ dir.estado }}, M&eacute;xico<br />
 							{% endfor %}
 						-->
-						Ver Ubicaciones
+						Ver Ubicaciones y Teléfonos
 					</p>
 					<!--
 						<p class='comentarios info'><dfn title='Comentarios'>54</dfn></p>
 					-->
 					<p class='horario info' style='width: 180px; margin-left: 0;' title='Horario del d&iacute;a de hoy'>
-						{% for h in hora %}
-							{{ h.hora_abre }} a {{ h.hora_cierra }}
-						{% endfor %}
-						8:00 am a 10:00 pm
+						{% if hora %}
+							{% if dia == '0' %}
+								{{hora.domingo}}
+							{% endif %}
+
+							{% if dia == '1' %}
+								{{hora.lunes}}
+							{% endif %}
+
+							{% if dia == '2' %}
+								{{hora.martes}}
+							{% endif %}
+
+							{% if dia == '3' %}
+								{{hora.miercoles}}
+							{% endif %}
+
+							{% if dia == '4' %}
+								{{hora.jueves}}
+							{% endif %}
+
+							{% if dia == '5' %}
+								{{hora.viernes}}
+							{% endif %}
+
+							{% if dia == '6' %}
+								{{hora.sabado}}
+							{% endif %}
+
+						{% else %}
+							&nbsp;
+						{% endif %}
 					</p>
 					<p class='moto info' title='Enrega a Domicilio'>
 						{% if dato.empresa.entrega %}
@@ -111,7 +139,7 @@
 
 			<h3 class='h3'>Comentarios</h3>
 
-			<div class="fb-comments" data-href="http://localhost:8000/platillo/{{dato.id}}" data-num-posts="2" data-width="620"></div>
+			<div class="fb-comments" data-href="/negocio/{{platillo.empresa.slug}}/{{platillo.slug}}/" data-num-posts="2" data-width="620"></div>
 
 		</div>
 	</div>

@@ -1,0 +1,82 @@
+.pc_container {
+    width: 920px;
+    height: 320px;
+    padding: 15px 1px 47px 1px;
+    background-image: url('../images/pc_bg.png');
+    margin: 0px auto;
+}
+
+.pc_container .pc_item {
+    margin-top: 15px;
+    margin-left: 1px;
+    width: 920px;
+    height: 320px;
+}
+
+.pc_container .pc_bar_container {
+    position: absolute;
+    top: 340px;
+    color: white;
+    padding: 0px 10px 0px 10px;
+    width: 100%;
+    overflow:visible;
+}
+
+.pc_bar_container_underflow {
+    width: 90000px;
+    overflow: visible;
+}
+
+.pc_bar_container_overflow {
+    overflow: hidden;
+    position: absolute;
+    top: 340px;
+    color: white;
+    margin: 0px 10px 0px 14px;
+    padding: 0px;
+}
+
+.left, .center, .right {
+    background-position: left;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    font-size: 1px;
+    float: left;
+}
+
+.bar {
+    background-position: left;
+    overflow: hidden;
+    font-size: 1px;
+    float: left;
+}
+
+.pc_item .desc {
+    display: inline-block;
+    vertical-align: top;
+    width: 465px;
+    padding: 10px;
+    height: 320px;
+    line-height: 1.8em;
+    background-image: url(../images/slide_fade.png);
+}
+
+.pc_item .desc h2 {
+    color: #e6650a;    
+    font-family: arial;
+    font-size: 23px;
+}
+
+.text{
+    color: #feba00;
+    font-size: 18px;
+    font-family: Boogaloo, cursive;
+    list-style: none;
+    margin: 0;
+}
+
+.text li{
+    background: transparent url(/static/img/banners/bullet.png) 0 20% no-repeat;
+    height: 3em;
+    padding-left: 20px; 
+}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/presentationCycle.css" />
+
+	<script type='text/javascript' src='{{STATIC_URL}}js/jquery.cycle.all.min.js'></script>
+    <script type='text/javascript' src='{{STATIC_URL}}js/presentationCycle.js'></script>
+	<style type="text/css">
+		#lateral{
+			display: none;
+		}
+
+		#comidas{
+			text-align: center;
+			margin: 3em auto 0 auto; 			
+		}
+
+	</style>
+{% endblock %}
+
+   
+{% block busqueda %}
+	{% include 'caja.html' %}
+{% endblock %}
+
+
+{% block contenido %}
+	<div id='todo'>
+		<div id='centrar'>
+
+			<!-- Slide -->
+			<div id='presentation_container' class='pc_container'>
+
+				<!-- Banners -->
+
+				<div class="pc_item">
+			        <div class="desc">
+			            <h2>AHORA ORDENAR TU COMIDA ES <br /> MUCHO MAS SIMPLE</h2>
+			            
+			            <ul class='text'>
+			            	<li>LOGRAMOS REUNIR TODOS LOS RESTAURANTES Y FONDAS EN UN SOLO LUGAR</li>
+			            	<li>DESCUBRE LAS PROMOCIONES QUE TIENEN PARA TI</li>
+			            	<li>VERAS QUE OPINAN DE ESE PLATILLO LOS OTROS USUARIOS</li>
+			            	<li>MIENTRAS MAS LO USES, MAS RECOMENDACIONES TENDREMOS</li>
+			            </ul>
+			        </div>
+			        <img src="{{STATIC_URL}}img/banners/banner1.png" />
+			    </div>
+
+				<div class="pc_item">
+			        <img src="{{STATIC_URL}}img/banners/banner2.png" />
+
+			        <div class="desc">
+			            <h2>LOGRAMOS REUNIR TODOS LOS RESTAURANTES Y FONDAS EN UN SOLO LUGAR</h2>
+			            
+			            <p class='text' style='line-height: 2em;'>
+			            	CON SOLO UN OBJETIVO Y UNA CARACTERÍSTICA COMÚN: MOSTRARTE LOS MÁS EXQUISITOS PLATILLOS
+			            	QUE FORMAN PARTE DE SU MENÚ Y ESTÁN LISTOS PARA SER ORDENADOS.
+			            </p>
+			        </div>
+			    </div>
+
+
+				<div class="pc_item">
+
+			        <div class="desc">
+			            <h2>VERAS LA OPINION DE OTROS USUARIOS ACERCA DE LOS PLATILLOS</h2>
+			            
+			            <p class='text' style='line-height: 2em;'>
+			            	CON SOLO UN OBJETIVO Y UNA CARACTERÍSTICA COMÚN: MOSTRARTE LOS MÁS EXQUISITOS PLATILLOS
+			            	QUE FORMAN PARTE DE SU MENÚ Y ESTÁN LISTOS PARA SER ORDENADOS.
+			            </p>
+			        </div>
+			    </div>
+
+			</div>
+
+			<div id='comidas'>
+				<a href='/buscar'>
+					<img src='{{STATIC_URL}}img/comidas.png' />
+				</a>
+			</div>
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	    presentationCycle.init();
+	</script>
+
+
+{% endblock %}

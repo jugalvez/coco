@@ -1,4 +1,4 @@
-from principal.models import Empresa, Sucursal, Platillo, Horario, Calificacion_platillo, Calificacion_usuario, Compra, Favorito
+from principal.models import Empresa, Sucursal, Platillo, Horario, Calificacion_platillo, Calificacion_usuario, Compra, Favorito, Contrato
 from django.contrib import admin
 
 admin.site.register(Empresa)
@@ -9,3 +9,4 @@ admin.site.register(Calificacion_platillo)
 admin.site.register(Calificacion_usuario)
 admin.site.register(Compra)
 admin.site.register(Favorito)
+admin.site.register(Contrato)

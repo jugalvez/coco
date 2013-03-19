@@ -4,6 +4,15 @@
 {% block css %}
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/login.css">
 	<style type="text/css">
+
+		#leyenda{
+			display: block;
+			float: left;
+			font-family: tahoma, arial, verdana;
+			margin: 1em 0;
+			width: 680px;
+		}
+
 		.formulario ul{
 			display: inline-block;
 			font-family: arial;
@@ -77,10 +86,15 @@
 {% block contenido %}
 
 	<div id='cabecera_login'>
-		<h2>Mis Datos</h2>
+		<h2>Horarios</h2>
 	</div>
 
-	<form action='.' method='post' class='formulario' enctype='multipart/form-data'>{% csrf_token %}
+	<p id='leyenda'>Coloca los horarios con alguno de los siguientes formatos:
+		<strong>08:00am - 15:00pm</strong> ó <strong>8:00am - 3:00pm</strong>,
+		también puedes indicar el día que descansan con <strong>Cerrado</strong>
+	</p>
+
+	<form action='.' method='post' class='formulario'>{% csrf_token %}
 		<ul>
 			{{ form.as_ul }}
 		

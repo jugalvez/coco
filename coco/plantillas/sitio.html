@@ -20,7 +20,7 @@
  				marker:{
  					values:[
 	 					{% for dir in lugar %}
-	 						{address: "{{dir.estado}}, {{dir.calle}}, {{dir.municipio}}, México", data: "{{dir.calle}}, {{dir.municipio}}, {{dir.estado}}"},
+	 						{address: "{{dir.estado}}, {{dir.calle}}, {{dir.municipio}}, México", data: "{{dir.calle}}, {{dir.municipio}}, {{dir.estado}} <br /> Tel: {{dir.telefono}}"},
 	 					{% endfor %}
 	 				],
 	 				events:{
@@ -95,16 +95,44 @@
 						<p id='dir'>{{dir.calle}}<br /> {{dir.municipio}}, {{dir.estado}}, M&eacute;xico</p>
 					{% endfor %}
 
-					<p id='horario'>
-						{% for h in horario %}
-							{{h.hora_abre}} - {{h.hora_cierra}}
-						{% endfor %}
-						8:00 am a 10:30 pm
+					<p id='horario'>	
+						{% if hora %}
+							{% if dia == '0' %}
+								{{hora.domingo}}
+							{% endif %}
+
+							{% if dia == '1' %}
+								{{hora.lunes}}
+							{% endif %}
+
+							{% if dia == '2' %}
+								{{hora.martes}}
+							{% endif %}
+
+							{% if dia == '3' %}
+								{{hora.miercoles}}
+							{% endif %}
+
+							{% if dia == '4' %}
+								{{hora.jueves}}
+							{% endif %}
+
+							{% if dia == '5' %}
+								{{hora.viernes}}
+							{% endif %}
+
+							{% if dia == '6' %}
+								{{hora.sabado}}
+							{% endif %}
+
+						{% else %}
+							&nbsp;
+						{% endif %}
 					</p>
 
 					<p id='moto'>
 						{% if negocio.entrega %}
-							Si - ${{ negocio.costo_envio }}
+							Si - $ {{ negocio.costo_envio }}
 						{% else %}
 							No
 						{% endif %}
@@ -119,7 +147,7 @@
 			</div>
 
 			<div id='titulo-menu'>
-				<p id='fecha'>18 de Agosto del 2012</p>
+				<p id='fecha'>{{ hoy|date:'DATE_FORMAT' }}</p>
 			</div>
 			
 			{% for plato in platillo %}

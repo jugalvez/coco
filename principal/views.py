@@ -1,5 +1,6 @@
+#encoding: utf-8
 from principal.models import Empresa, Sucursal, Platillo, Horario, Contrato, Calificacion_platillo, Calificacion_usuario, Compra, Favorito
-from principal.forms import BusquedaForm, EmpresaForm, SucursalForm, PlatilloForm, PerfilForm
+from principal.forms import BusquedaForm, EmpresaForm, SucursalForm, PlatilloForm, PerfilForm, ContactoForm, HorarioForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
@@ -13,15 +14,43 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 
 #from django.utils import simplejson
 #from django.utils import simplejson
-#from django.core.mail import EmailMessage
+
+
+
+def inicio(request):
+	formBuscar = BusquedaForm()	
+	return render_to_response('inicio.html', {'formulario': formBuscar}, context_instance=RequestContext(request))
 
 
 def acerca(request):
 	formBuscar = BusquedaForm()	
 	return render_to_response('acerca.html', {'formulario': formBuscar}, context_instance=RequestContext(request))
+
+
+def contacto(request):
+	formBuscar = BusquedaForm()
+	
+	if request.method=='POST':
+		formContacto = ContactoForm(request.POST)
+		if formContacto.is_valid():
+			titulo = 'Mensaje desde Cocoscore.com'
+			contenido = formContacto.cleaned_data['nombre'] + ' te envio este mensaje: \n\n'
+			contenido += formContacto.cleaned_data['mensaje'] + '\n'
+			contenido += 'Contactar con ' + formContacto.cleaned_data['correo']
+			correo = EmailMessage(titulo, contenido, to = ['info@grupogalco.net'])
+			correo.send()
+			return render_to_response('contacto_ok.html', {'formulario': formBuscar}, context_instance=RequestContext(request))
+		else:
+			formContacto = ContactoForm()
+			return render_to_response('contacto.html', {'formulario': formBuscar, 'contacto': ContactoForm}, context_instance=RequestContext(request))	
+	else:
+		formContacto = ContactoForm()
+		return render_to_response('contacto.html', {'formulario': formBuscar, 'contacto': ContactoForm}, context_instance=RequestContext(request))
+
 
 '''
 def busqueda(request):
@@ -49,6 +78,9 @@ def busqueda(request):
 			q = formBuscar.cleaned_data['platillo']
 			qe = formBuscar.cleaned_data['ciudad']
 			platillos = Platillo.objects.filter(nombre_platillo__contains = q).order_by('nombre_platillo')
+		else:
+			formBuscar = BusquedaForm()
+			platillos = Platillo.objects.all().order_by('nombre_platillo')
 	else:
 		formBuscar = BusquedaForm()
 		platillos = Platillo.objects.all().order_by('nombre_platillo')
@@ -58,23 +90,27 @@ def busqueda(request):
 def platillo(request, restaurant, platillo):
 	empresa = get_object_or_404(Empresa, slug = restaurant)
 	plato = get_object_or_404(Platillo, slug = platillo)
-	#horario = Horario.objects.filter(empresa = plato.usuario)
+	hora = Horario.objects.get(empresa = empresa)
 	lugar = Sucursal.objects.filter(empresa = plato.empresa)[:1]
+	hoy = datetime.now()
+	dia = datetime.strftime(hoy, '%w')
 	#estrellas = Calificacion_platillo(platillo=plato)
 	#otros = Platillo.objects.filter(empresa=plato.empresa).exclude(pk=id_platillo)
 	formBuscar = BusquedaForm()	
 	#return render_to_response('platillo.html', {'dato': plato, 'hora': horario, 'lugar': lugar, 'estrellas': estrellas, 'otros': otros, 'formulario': formBuscar}, context_instance=RequestContext(request))
-	return render_to_response('platillo.html', {'dato': plato, 'formulario': formBuscar, 'lugar': lugar}, context_instance=RequestContext(request))
+	return render_to_response('platillo.html', {'dato': plato, 'formulario': formBuscar, 'lugar': lugar, 'hora': hora, 'dia': dia}, context_instance=RequestContext(request))
 
 
 def sitio(request, restaurant):
 	negocio = get_object_or_404(Empresa, slug = restaurant)
-	horario = Horario.objects.filter(empresa = negocio)
+	hora = Horario.objects.get(empresa = negocio)
 	lugar = Sucursal.objects.filter(empresa = negocio)
 	formBuscar = BusquedaForm()
 	platillos = Platillo.objects.filter(empresa = negocio)
+	hoy = datetime.now()
+	dia = datetime.strftime(hoy, '%w')
 	#categorias = Categoria_platillo.objects.filter(platillo=platillos).order_by('nombre_categoria')
-	return render_to_response('sitio.html', {'negocio': negocio, 'horario': horario, 'lugar': lugar, 'platillo': platillos ,'formulario': formBuscar}, context_instance=RequestContext(request))
+	return render_to_response('sitio.html', {'negocio': negocio, 'hora': hora, 'lugar': lugar, 'platillo': platillos ,'formulario': formBuscar, 'hoy': hoy, 'dia': dia}, context_instance=RequestContext(request))
 
 
 def login(request):
@@ -153,10 +189,32 @@ def perfil(request):
 	return render_to_response('panel/perfil.html', { 'formulario': formBuscar, 'form': form}, context_instance = RequestContext(request))
 
 
-#@login_required(login_url='/login')
-#def horarios(request):
+@login_required(login_url='/login')
+def horario(request):
+	
+	formBuscar = BusquedaForm()
 
-#	return render_to_response('panel/horario.html', context_instance = RequestContext(request))
+	empresa = Empresa.objects.get(usuario = request.user)
+	Qdatos = Horario.objects.filter(empresa = empresa)
+
+	if request.method == 'POST':
+		if Qdatos:
+			Qdata = Horario.objects.get(empresa = empresa)
+			horas = HorarioForm(request.POST, instance = Qdata)	
+		else:
+			quien = Horario(empresa = empresa)
+			horas = HorarioForm(request.POST, instance = quien)	
+
+		if horas.is_valid():
+			horas.save()
+			return HttpResponseRedirect('/panel/horarios')
+	else:
+		if Qdatos:
+			Gdatos = Horario.objects.get(empresa = empresa)
+			horas = HorarioForm(instance = Gdatos)
+		else:
+			horas = HorarioForm()
+	return render_to_response('panel/horario.html', { 'formulario': formBuscar, 'form': horas } ,context_instance = RequestContext(request))
 
 
 @login_required(login_url='/login')
@@ -167,8 +225,8 @@ def datos_negocio(request):
 
 	if request.method == 'POST':
 		if Qdatos:
-			Qdatos = Empresa.objects.get(usuario = request.user)
-			form = EmpresaForm(request.POST, request.FILES, instance = Qdatos)
+			Qdata = Empresa.objects.get(usuario = request.user)
+			form = EmpresaForm(request.POST, request.FILES, instance = Qdata)
 		else:
 			usuario = Empresa(usuario = request.user)
 			form = EmpresaForm(request.POST, request.FILES, instance = usuario)
