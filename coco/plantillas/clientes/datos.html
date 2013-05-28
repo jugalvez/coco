@@ -84,15 +84,16 @@
 
 
 {% block menu_panel %}
-	{% include 'panel/menu_panel.html' %}
+	{% include 'clientes/menu_panel.html' %}
 {% endblock %}
 
 
 {% block contenido %}
 
 	<div id='cabecera_login'>
-		<h2>Datos del Restaurante</h2>
+		<h2> {{ titulo }} </h2>
 	</div>
+
 
 	<form action='.' method='post' class='formulario' enctype='multipart/form-data'>{% csrf_token %}
 		<ul>

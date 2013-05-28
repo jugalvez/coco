@@ -98,31 +98,31 @@
 					<p id='horario'>	
 						{% if hora %}
 							{% if dia == '0' %}
-								{{hora.domingo}}
+								{{hora.domingo_abre}} - {{hora.domingo_cierra}}
 							{% endif %}
 
 							{% if dia == '1' %}
-								{{hora.lunes}}
+								{{hora.lunes_abre}} - {{hora.lunes_cierra}}
 							{% endif %}
 
 							{% if dia == '2' %}
-								{{hora.martes}}
+								{{hora.martes_abre}} - {{hora.martes_cierra}}
 							{% endif %}
 
 							{% if dia == '3' %}
-								{{hora.miercoles}}
+								{{hora.miercoles_abre}} - {{hora.miercoles_cierra}}
 							{% endif %}
 
 							{% if dia == '4' %}
-								{{hora.jueves}}
+								{{hora.jueves_abre}} - {{hora.jueves_cierra}}
 							{% endif %}
 
 							{% if dia == '5' %}
-								{{hora.viernes}}
+								{{hora.viernes_abre}} - {{hora.viernes_cierra}}
 							{% endif %}
 
 							{% if dia == '6' %}
-								{{hora.sabado}}
+								{{hora.sabado_abre}} - {{hora.sabado_cierra}}
 							{% endif %}
 
 						{% else %}

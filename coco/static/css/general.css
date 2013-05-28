@@ -204,17 +204,17 @@ h1 span{
 	border: 1px solid #dbd5c8;
 	float: left;
 	margin-top: 30px;
-	min-height: 600px;
+	min-height: 400px;
 	width: 959px;
 }
 
 
 
 #lateral{
-	background: #fff url(../img/timbre.png) 1px 139px no-repeat;
+	background: #fff url(../img/timbre.png) 1px 189px no-repeat;
 	float: right;
 	width: 285px;
-	min-height: 500px;
+	min-height: 400px;
 }
 
 #lateral #bolsa{
@@ -256,12 +256,17 @@ h1 span{
 	left: 0;
 }
 
+#lateral #ordenar{
+	display: block;
+	margin: 0 auto;
+}
+
 #pie{
 	background-color: #687b30;
 	clear: both;
 	float: left;
 	height: 80px;
-	margin: 5px 0 5px 0;
+	margin: 30px 0 0;
 	width: 100%;
 }
 
@@ -294,9 +299,9 @@ h1 span{
 	vertical-align: top !important;
 }
 
-#adss{
+#ads{
 	float: left;
-	margin: 50px 15px;
+	margin: 90px 15px;
 }
 
 

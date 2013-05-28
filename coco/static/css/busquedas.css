@@ -1,7 +1,7 @@
 #resultados{
 	border-right: 1px solid #dbd5c8;
 	float: left;
-	min-height: 1100px;
+	min-height: 500px;
 	width: 673px;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .detalles .ver_todos{
-	display: none;
+	margin: -15px auto 0 70%;
 }
 
 .detalles .ver_todos a{

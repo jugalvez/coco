@@ -1,13 +1,12 @@
 #encoding: utf-8
-from principal.models import Empresa, Sucursal, Platillo, Horario, Contrato, Calificacion_platillo, Calificacion_usuario, Compra, Favorito
-from principal.forms import BusquedaForm, EmpresaForm, SucursalForm, PlatilloForm, PerfilForm, ContactoForm, HorarioForm
+from principal.models import Cliente, Empresa, Sucursal, Platillo, Horario, Contrato, Calificacion_pedido, Calificacion_usuario, Compra, Favorito
+from principal.forms import BusquedaForm, EmpresaForm, EmpresaAnunciaForm, SucursalForm, PlatilloForm, PerfilForm, ContactoForm, HorarioForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-from datetime import datetime, timedelta
 from datetime import datetime, timedelta
 from django.template.defaultfilters import slugify
 from django.contrib.auth.forms import UserCreationForm
@@ -51,25 +50,6 @@ def contacto(request):
 		formContacto = ContactoForm()
 		return render_to_response('contacto.html', {'formulario': formBuscar, 'contacto': ContactoForm}, context_instance=RequestContext(request))
 
-
-'''
-def busqueda(request):
-	if request.method=='POST':
-		formBuscar = BusquedaForm(request.POST)
-		if formBuscar.is_valid():
-			q = '%'+ formBuscar.cleaned_data['platillo']  +'%'
-			if formBuscar.cleaned_data['ciudad']!='':
-				qe = '%'+ formBuscar.cleaned_data['ciudad']  +'%'
-				platillos = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id AND principal_empresa.id=principal_sucursal.usuario_id AND principal_sucursal.estado like %s",  [q, q, qe])
-			else:
-				platillos = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id",  [q, q])
-	else:
-		formBuscar = BusquedaForm()
-		q = '%%'
-		#empresas = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id",  [q, q])
-		platillos = Platillo.objects.all()
-	return render_to_response('busqueda.html', {'platillos': platillos, 'formulario': formBuscar}, context_instance=RequestContext(request))
-'''
 
 def busqueda(request):
 	if request.method=='POST':
@@ -127,12 +107,18 @@ def login(request):
 			if acceso is not None:
 				if acceso.is_active:
 					auth_login(request, acceso)
-					return HttpResponseRedirect('/panel/datos')
+					
+					''' Buscamos al usuario, y guardamos la sesión '''
+					usuario_encuentra = User.objects.get(username = usuario)
+					request.session['tipo'] = 2
+
+					return HttpResponseRedirect('/clientes')
 				#else:
 					#return render_to_response('noactivo.html', context_instance = RequestContext(request))
 			#else:
 			#	return render_to_response('nousuario.html', context_instance = RequestContext(request))
-	return render_to_response('login.html', {'formulario': formBuscar}, context_instance=RequestContext(request))
+	titulo = 'Iniciar Sesión'
+	return render_to_response('login.html', {'formulario': formBuscar, 'titulo': titulo}, context_instance=RequestContext(request))
 
 
 def registro(request):
@@ -141,226 +127,53 @@ def registro(request):
 	if request.method == 'POST':
 		formRegistro = UserCreationForm(request.POST)
 		if formRegistro.is_valid():
+			
+			'''		Guardamos el registro, tomamos el usuario y password para hacer magia negra	 '''
 			formRegistro.save()
-
-			'''		Guardamos el registro, hacemos login y lo enviamos al panel		'''
 			usuario = request.POST['username']
 			clave = request.POST['password1']
-			
+
+			''' Tomamos el registro del nuevo usuario, guardamos un registro en Clientes, y la sesión '''
+			usuario_registro = User.objects.get(username = usuario)
+			cliente = Cliente(usuario = usuario_registro)
+			cliente.save()
+			request.session['tipo'] = 2
+
+			''' Hacemos LogIn y enviamos al usuario al Panel de control '''
 			acceso = authenticate(username = usuario, password = clave)
 			if acceso is not None:
 				if acceso.is_active:
-					auth_login(request, acceso)
-					
-					'''		Fecha de vencimiento de primera mensualidad		'''
-					hoy = datetime.now()
-					mes = hoy+timedelta(days = 30)
-					quien = User.objects.get(username = usuario)
-					contrato = Contrato(usuario = quien, fecha_fin = mes)
-					contrato.save()
-
-					return HttpResponseRedirect('/panel/datos')
+					auth_login(request, acceso)				
+					return HttpResponseRedirect('/clientes')
 			else:
 				return HttpResponseRedirect('/login')
 	else:
 		formRegistro = UserCreationForm()
-	return render_to_response('registro.html', { 'formulario': formBuscar, 'formRegistro': formRegistro }, context_instance=RequestContext(request))
-
-
-'''
-	PANEL DE CONTROL
-'''
-
-@login_required(login_url='/login')
-def perfil(request):
-
-	formBuscar = BusquedaForm()
-	Qdatos = User.objects.get(pk = request.user.id)
-
-	if request.method == 'POST':
-		form = PerfilForm(request.POST, instance = Qdatos)
-
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/perfil')
-
-	else:
-		form = PerfilForm(instance = Qdatos)
-	return render_to_response('panel/perfil.html', { 'formulario': formBuscar, 'form': form}, context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def horario(request):
-	
-	formBuscar = BusquedaForm()
-
-	empresa = Empresa.objects.get(usuario = request.user)
-	Qdatos = Horario.objects.filter(empresa = empresa)
-
-	if request.method == 'POST':
-		if Qdatos:
-			Qdata = Horario.objects.get(empresa = empresa)
-			horas = HorarioForm(request.POST, instance = Qdata)	
-		else:
-			quien = Horario(empresa = empresa)
-			horas = HorarioForm(request.POST, instance = quien)	
-
-		if horas.is_valid():
-			horas.save()
-			return HttpResponseRedirect('/panel/horarios')
-	else:
-		if Qdatos:
-			Gdatos = Horario.objects.get(empresa = empresa)
-			horas = HorarioForm(instance = Gdatos)
-		else:
-			horas = HorarioForm()
-	return render_to_response('panel/horario.html', { 'formulario': formBuscar, 'form': horas } ,context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def datos_negocio(request):
-
-	formBuscar = BusquedaForm()
-	Qdatos = Empresa.objects.filter(usuario = request.user)
-
-	if request.method == 'POST':
-		if Qdatos:
-			Qdata = Empresa.objects.get(usuario = request.user)
-			form = EmpresaForm(request.POST, request.FILES, instance = Qdata)
-		else:
-			usuario = Empresa(usuario = request.user)
-			form = EmpresaForm(request.POST, request.FILES, instance = usuario)
-
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/datos')
-	else:
-		if Qdatos:
-			Gdatos = Empresa.objects.get(usuario = request.user)
-			form = EmpresaForm(instance = Gdatos)
-		else:
-			form = EmpresaForm()
-	return render_to_response('panel/negocio.html', { 'formulario': formBuscar, 'form': form}, context_instance = RequestContext(request))
-
-
-
-@login_required(login_url='/login')
-def lista_sucursal(request):
-	empresa = Empresa.objects.filter(usuario = request.user)[:1]
-	listaSucursal = Sucursal.objects.filter(empresa = empresa)
-	formBuscar = BusquedaForm()
-	return render_to_response('panel/lista_sucursal.html', { 'formulario': formBuscar, 'lista': listaSucursal }, context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def datos_sucursal(request):
-	
-	formBuscar = BusquedaForm()
-
-	if request.method == 'POST':
-		empresa = Empresa.objects.get(usuario = request.user)
-		sucursal = Sucursal(empresa = empresa)
-		form = SucursalForm(request.POST, instance = sucursal)
-	
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/sucursales')
-	else:
-		form = SucursalForm()
-	return render_to_response('panel/sucursal.html', { 'formulario': formBuscar, 'form': form }, context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def edita_sucursal(request, id_sucursal):
-	formBuscar = BusquedaForm()
-	Qdatos = Sucursal.objects.get(pk = id_sucursal)
-	
-	if request.method == 'POST':
-		form = SucursalForm(request.POST, instance = Qdatos)
-	
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/sucursales')
-	else:
-		form = SucursalForm(instance = Qdatos)
-	return render_to_response('panel/sucursal.html', { 'formulario': formBuscar, 'form': form }, context_instance = RequestContext(request))
-
-
-
-@login_required(login_url='/login')
-def lista_platillo(request):
-	
-	formBuscar = BusquedaForm()
-	empresa = Empresa.objects.filter(usuario = request.user)[:1]
-	listaPlatillo = Platillo.objects.filter(empresa = empresa)
-	return render_to_response('panel/lista_platillo.html', { 'formulario': formBuscar, 'lista': listaPlatillo }, context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def nuevo_platillo(request):
-	formBuscar = BusquedaForm()
-	
-	if request.method == 'POST':
-		empresa = Empresa.objects.get(usuario = request.user)
-		platillo = Platillo(empresa = empresa)
-		form = PlatilloForm(request.POST, request.FILES, instance = platillo)
-	
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/platillos/')
-	else:
-		form = PlatilloForm()
-	return render_to_response('panel/platillo.html', { 'formulario': formBuscar, 'form': form }, context_instance = RequestContext(request))
-
-
-@login_required(login_url='/login')
-def edita_platillo(request, id_platillo):
-	
-	formBuscar = BusquedaForm()
-	Qdatos = Platillo.objects.get(pk = id_platillo)
-	
-	if request.method == 'POST':
-		form = PlatilloForm(request.POST, request.FILES, instance = Qdatos)
-	
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/panel/platillos/')
-	else:
-		form = PlatilloForm(instance = Qdatos)
-	return render_to_response('panel/platillo.html', { 'formulario': formBuscar, 'form': form }, context_instance = RequestContext(request))
-
-
+	return render_to_response('registro.html', { 'formulario': formBuscar, 'formRegistro': formRegistro }, context_instance = RequestContext(request))
 
 
 @login_required(login_url='/login')
 def salir(request):
+	pkt = request.session.get('tipo')	
 	logout(request)
-	return HttpResponseRedirect('/')
+	if pkt == 2:
+		return HttpResponseRedirect('/login/')
+	else:
+		return HttpResponseRedirect('/mi-negocio/')
 
 
 
 
-
-
-
-@csrf_exempt
-def ajax(request, id):
-	if request.is_ajax:
-		if request.method == 'POST':
-			platillo = Platillo.objects.filter(pk=id)
-			JSONSerializer = serializers.get_serializer("json")
-			json = JSONSerializer()
-			json.serialize(platillo)
-			data = json.getvalue()
-
-			#json = serializers.serialize("json", data)
-			#json = simplejson.dumps(platillo)
-			return HttpResponse(data, mimetype='application/json')
-
-
-
-
-
+def add_Pedido(cliente, platillo, cantidad):
+	num_pedido = 200
+	busca = Compra.objects.filter(num_pedido = num_pedido, platillo = platillo)
+	
+	if busca:
+		actualiza = Compra(cantidad = cantidad)
+		actualiza.save()
+	else:
+		add = Compra(cliente = cliente, platillo = platillo, cantidad = cantidad, num_pedido = num_pedido)
+		add.save()
 
 
 
@@ -369,11 +182,21 @@ def ajax(request, id):
 
 
 
-
-
-
-
-
-
-
-
+'''
+def busqueda(request):
+	if request.method=='POST':
+		formBuscar = BusquedaForm(request.POST)
+		if formBuscar.is_valid():
+			q = '%'+ formBuscar.cleaned_data['platillo']  +'%'
+			if formBuscar.cleaned_data['ciudad']!='':
+				qe = '%'+ formBuscar.cleaned_data['ciudad']  +'%'
+				platillos = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id AND principal_empresa.id=principal_sucursal.usuario_id AND principal_sucursal.estado like %s",  [q, q, qe])
+			else:
+				platillos = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id",  [q, q])
+	else:
+		formBuscar = BusquedaForm()
+		q = '%%'
+		#empresas = Empresa.objects.raw("SELECT DISTINCT nombre_platillo, precio, fotografia, principal_platillo.id, calle, estado, municipio, hora_abre, hora_cierra, empresa, principal_empresa.id as id_empresa FROM  principal_empresa, principal_platillo, principal_sucursal, principal_horario WHERE (nombre_platillo LIKE %s OR empresa LIKE %s) AND principal_empresa.id=principal_platillo.usuario_id AND principal_empresa.id=principal_horario.empresa_id",  [q, q])
+		platillos = Platillo.objects.all()
+	return render_to_response('busqueda.html', {'platillos': platillos, 'formulario': formBuscar}, context_instance=RequestContext(request))
+'''

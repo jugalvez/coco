@@ -14,7 +14,7 @@
 {% block contenido %}
 	<section id='contenedor-login'>
 		<div id='cabecera_login'>
-			<h2>Iniciar Sesión</h2>
+			<h2>{{ titulo }}</h2>
 		</div>
 		<form class='formulario' name='loginForm' id='loginForm' method='post' action='.'>{% csrf_token %}
 			<div class='datos'>			

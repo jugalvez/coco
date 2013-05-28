@@ -10,13 +10,6 @@
 			margin: 2em 4em 0 0;
 		}
 
-		#leyenda{
-			display: block;
-			float: left;
-			font-family: tahoma, arial, verdana;
-			margin: 1em 0;
-		}
-
 		table{
 			float: left;
 			font-family:  arial;
@@ -27,7 +20,7 @@
 
 		table tr{
 			border-bottom: 1px solid #999;
-			text-align: justify;
+			text-align: center;
 		}
 
 		table tr:hover{
@@ -36,6 +29,15 @@
 
 		table td{
 			padding: 1em 0.8em;
+		}
+
+		table .imagen{
+			text-align: center;
+			width: 150px;
+		}
+
+		table .nombre{
+			text-align: justify;
 		}
 
 	</style>
@@ -51,37 +53,38 @@
 
 {% block contenido %}
 	<div id='cabecera_login'>
-		<h2>Mis Sucursales</h2>
+		<h2>Mis Platillos</h2>
 	</div>
 
-	<h3><a href="/mi-negocio/sucursales/nuevo">Agregar Nueva Sucursal</a></h3>
+	<h3><a href="/panel/platillos/nuevo">Agregar Nuevo Platillo</a></h3>
 
-	<p id='leyenda'>
-		Agrega todas tus sucursales, incluyendo la matriz.
-	</p>
 
 	<table>
-		{% for sucursal in lista %}
+		{% for plato in lista %}
 
 			<tr>
-				<td>
-					{{ sucursal.calle }}
+				<td class='imagen'>
+					<img src='{{MEDIA_URL}}{{ plato.fotografia }}' width='100px' />
+				</td>
+
+				<td class='nombre'>
+					{{ plato.nombre_platillo }}
 				</td>
 
 				<td>
-					{{ sucursal.colonia }}
+					${{ plato.precio }}
 				</td>
 
 				<td>
-					{{ sucursal.municipio }}
+					{% if plato.estatus %}
+						Activo
+					{% else %}
+						Inactivo
+					{% endif %}
 				</td>
 
 				<td>
-					{{ sucursal.estado }}
-				</td>
-
-				<td>
-					<a href='/mi-negocio/sucursales/editar/{{ sucursal.id }}'>
+					<a href='/panel/platillos/editar/{{ plato.id }}'>
 						<img src='{{ STATIC_URL }}img/edit.png' />
 					</a>
 				</td>

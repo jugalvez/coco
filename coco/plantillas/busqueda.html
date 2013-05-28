@@ -17,6 +17,7 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 	<div id='resultados'>
+
 		{% for platillo in platillos %}
 			<a href='/negocio/{{platillo.empresa.slug}}/{{platillo.slug}}'>
 				<div class='vista_platillo'>
@@ -70,6 +71,8 @@
 			<p style='margin-top: 15em; text-align: center;'>Ups! No encontramos resultados para tu búsqueda</p>
 		{% endfor %}
 
+
+		<img src="{{STATIC_URL}}img/ads2.png" alt="">
 	</div>
 
 {% endblock %}

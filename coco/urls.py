@@ -10,8 +10,7 @@ urlpatterns = patterns('',
 	url(r'^cocopanel/doc/', include('django.contrib.admindocs.urls')),
     url(r'^cocopanel/', include(admin.site.urls)),
 
-    url(r'^ajax/(?P<id>\d+)$', 'principal.views.ajax'),
-
+#    url(r'^ajax/(?P<id>\d+)$', 'principal.views.ajax'),
 
 # Vista de visitantes
     url(r'^$', 'principal.views.inicio'),
@@ -27,20 +26,26 @@ urlpatterns = patterns('',
     url(r'^negocio/(?P<restaurant>[-_\w]+)/$', 'principal.views.sitio'),
 
 
+# Panel para Clientes
+    url(r'^clientes/$', 'clientes.views.perfilClientes'),
+    url(r'^clientes/domicilio/$', 'clientes.views.datosClientes'),
+
+
 # Panel de control Restaurante
-    url(r'^panel/perfil/$', 'principal.views.perfil'),
-    url(r'^panel/datos/$', 'principal.views.datos_negocio'),
-    url(r'^panel/horarios/$', 'principal.views.horario'),
+    url(r'^mi-negocio/$', 'restaurantes.views.miNegocio'),
+    url(r'^mi-negocio/perfil/$', 'restaurantes.views.perfil'),
+    url(r'^mi-negocio/datos/$', 'restaurantes.views.datos_negocio'),
+    url(r'^mi-negocio/horarios/$', 'restaurantes.views.horario'),
 
-# Panel de control sucursales
-    url(r'^panel/sucursales/nuevo/$', 'principal.views.datos_sucursal'),
-    url(r'^panel/sucursales/$', 'principal.views.lista_sucursal'),
-    url(r'^panel/sucursales/editar/(?P<id_sucursal>\d+)/$', 'principal.views.edita_sucursal'),
+# mi-negocio de control sucursales
+    url(r'^mi-negocio/sucursales/nuevo/$', 'restaurantes.views.datos_sucursal'),
+    url(r'^mi-negocio/sucursales/$', 'restaurantes.views.lista_sucursal'),
+    url(r'^mi-negocio/sucursales/editar/(?P<id_sucursal>\d+)/$', 'restaurantes.views.edita_sucursal'),
 
-# Panel de control Platillos
-    url(r'^panel/platillos/nuevo/$', 'principal.views.nuevo_platillo'),
-    url(r'^panel/platillos/$', 'principal.views.lista_platillo'),
-    url(r'^panel/platillos/editar/(?P<id_platillo>\d+)/$', 'principal.views.edita_platillo'),
+# mi-negocio de control Platillos
+    url(r'^mi-negocio/platillos/nuevo/$', 'restaurantes.views.nuevo_platillo'),
+    url(r'^mi-negocio/platillos/$', 'restaurantes.views.lista_platillo'),
+    url(r'^mi-negocio/platillos/editar/(?P<id_platillo>\d+)/$', 'restaurantes.views.edita_platillo'),
 
     url(r'^salir/$', 'principal.views.salir'),
 

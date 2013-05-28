@@ -127,6 +127,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'principal',
+    'clientes',
+    'restaurantes',
     'sorl.thumbnail',
 )
 

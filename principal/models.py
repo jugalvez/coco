@@ -13,6 +13,17 @@ from django_resized import ResizedImageField
 #User.add_to_class('tipo_usuario', models.SmallIntegerField(null = False, blank = False))
 
 
+class Cliente(models.Model):
+	usuario = models.ForeignKey(User)
+	calle = models.CharField(max_length = 250, verbose_name = 'Calle y Número', blank = True, null = True)
+	telefono = models.CharField(max_length = 30, null = True, blank = True, verbose_name = 'Teléfono')
+	colonia = models.CharField(max_length = 100, blank = True, null = True)
+	municipio = models.CharField(max_length = 30, blank = True, null = True)
+	estado = models.CharField(max_length = 30, default = 'Colima')
+
+	def __unicode__(self):
+		return usuario.username
+
 
 class Empresa(models.Model):
 	usuario = models.ForeignKey(User)
@@ -20,12 +31,12 @@ class Empresa(models.Model):
 	slug = models.SlugField(max_length = 80, unique = True)
 	slogan =  models.CharField(max_length = 250, null = True, blank = True, verbose_name = 'Eslogan')
 	logotipo = models.ImageField(upload_to = 'logos', null = True, blank = True, help_text = 'De 240x98px se ve mejor :)')
-	descripcion = models.TextField(verbose_name = 'Descripción', help_text = 'Crea una descripción corta, a nadie le gusta ver mucho texto en internet')
+	descripcion = models.TextField(verbose_name = 'Descripción', blank = True, null = True ,help_text = 'Crea una descripción corta, a nadie le gusta ver mucho texto en internet')
 	entrega = models.BooleanField(null = False, default = False, verbose_name = 'Entrega a domicilio', help_text = '¿Tienes entrega a domicilio?')
 	compra_minima = models.FloatField(default = 0, verbose_name = 'Compra Mínima', help_text = 'Compra mínina para servicio a domicilio, NO colocar signo de precio $')
 	costo_envio = models.FloatField(verbose_name = 'Costo de Envío', default = 0, help_text = 'Costo de entrega a domicilio, NO colocar signo de precio $')
 	estatus = models.BooleanField(default = True)
-	paquete = models.IntegerField(default = 1)
+	paquete = models.IntegerField()
 
 	def save(self, *args, **kwargs):
 		self.slug = defaultfilters.slugify(self.empresa)
@@ -37,11 +48,16 @@ class Empresa(models.Model):
 
 class Sucursal(models.Model):
 	empresa = models.ForeignKey(Empresa)
+	usuario = models.ForeignKey(User)
+	nombre = models.CharField(max_length = 50, blank = True, null = True)
 	telefono = models.CharField(max_length = 30, null = True, blank = True, verbose_name = 'Teléfono')
 	calle = models.CharField(max_length = 200, null = False)
 	colonia = models.CharField(max_length = 200, null = False)
 	municipio = models.CharField(max_length = 30, null = False)
 	estado = models.CharField(max_length = 30, null = False, default = 'Colima')
+	matriz = models.BooleanField(default = False, verbose_name = '¿Es la sucursal principal?')
+	usuario = models.CharField(max_length = 150)
+	password = models.CharField(max_length = 150)
 
 	def __unicode__(self):
 		return self.usuario.username
@@ -49,7 +65,7 @@ class Sucursal(models.Model):
 
 class Contrato(models.Model):
 	empresa = models.ForeignKey(Empresa)
-	fecha_inico = models.DateField()
+	fecha_inicio = models.DateField()
 	fecha_fin = models.DateField()
 
 	def __unicode__(self):
@@ -61,10 +77,8 @@ class Platillo(models.Model):
 	nombre_platillo = models.CharField(max_length = 100, null = False, blank = False, verbose_name = 'Nombre del Platillo')
 	slug = models.SlugField(max_length = 80, unique = False)
 	fotografia = ResizedImageField(max_width = 413, max_height = 287, upload_to = 'platillos', help_text = 'Puede ser JPG o PNG')
-	#fotografia = models.ImageField(upload_to = 'platillos', verbose_name = 'Fotografía')
 	descripcion = models.TextField(help_text = 'Describe el platillo, acompañamientos, especias, ingredientes, etc..')
 	precio = models.FloatField(help_text = 'NO colocar signo de precio $')
-	#dia_existencia = models.CharField(max_length = 150)
 	fecha_publicacion = models.DateTimeField(auto_now = True)
 	tags = models.CharField(max_length = 250, verbose_name = 'Categorías')
 	estatus = models.BooleanField(null = False, default = True, verbose_name = '¿Disponible?')
@@ -79,25 +93,34 @@ class Platillo(models.Model):
 
 class Horario(models.Model):
 	empresa = models.ForeignKey(Empresa)
-	lunes = models.CharField(max_length = 18, blank = True, null = True)
-	martes = models.CharField(max_length = 18, blank = True, null = True)
-	miercoles = models.CharField(max_length = 18, blank = True, null = True, verbose_name = 'Miércoles')
-	jueves = models.CharField(max_length = 18, blank = True, null = True)
-	viernes = models.CharField(max_length = 18, blank = True, null = True)
-	sabado = models.CharField(max_length = 18, blank = True, verbose_name = 'Sábado')
-	domingo = models.CharField(max_length = 18, blank = True, null = True)
+	lunes_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Lunes')
+	lunes_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	martes_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Martes')
+	martes_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	miercoles_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Miércoles')
+	miercoles_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	jueves_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Jueves')
+	jueves_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	viernes_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Viernes')
+	viernes_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	sabado_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Sábado')
+	sabado_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
+	domingo_abre = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'Domingo')
+	domingo_cierra = models.CharField(max_length = 24, blank = True, null = True, verbose_name = 'a')
 
 	def __unicode__(self):
 		return self.lunes
 
 
-class Calificacion_platillo(models.Model):
-	usuario = models.ForeignKey(User)
+class Calificacion_pedido(models.Model):
+	cliente = models.ForeignKey(User)
 	platillo = models.ForeignKey(Platillo)
+	num_pedido = models.CharField(max_length = 200)
 	sabor = models.IntegerField(null = False, default = 1)
 	precio = models.IntegerField(null = False, default = 1)
 	entrega = models.IntegerField(null = False, default = 1)
 	comentario = models.TextField(null = True, blank = True)
+	fecha = models.DateTimeField(auto_now = True)
 	estatus = models.BooleanField(default = False)
 
 	def __unicode__(self):
@@ -105,10 +128,12 @@ class Calificacion_platillo(models.Model):
 
 
 class Calificacion_usuario(models.Model):
-	usuario = models.ForeignKey(User)
+	cliente = models.ForeignKey(User)
 	empresa = models.ForeignKey(Empresa)
+	num_pedido = models.CharField(max_length = 200)
 	calificacion = models.SmallIntegerField(null = False)   #Bueno = 2, Regualar = 1, malo = 0
 	comentario = models.TextField(null = True, blank = True)
+	fecha = models.DateTimeField(auto_now = True)
 	estatus = models.BooleanField(default = False)
 
 	def __unicode__(self):
@@ -116,21 +141,21 @@ class Calificacion_usuario(models.Model):
 
 
 class Compra(models.Model):
-	usuario = models.ForeignKey(User)
+	cliente = models.ForeignKey(User)
 	platillo = models.ForeignKey(Platillo)
-	#califica_usuario = models.ForeignKey(Calificacion_usuario)
-	#califica_platillo = models.ForeignKey(Calificacion_platillo)
-	fecha_compra = models.DateTimeField(auto_now = True)
-	cantidad = models.SmallIntegerField(null = False)
-	sesion = models.CharField(max_length = 200)
+	sucursal = models.ForeignKey(Sucursal)
+	fecha = models.DateTimeField(auto_now = True)
+	cantidad = models.SmallIntegerField(null = False, default = 0)
+	num_pedido = models.CharField(max_length = 200)
 	estatus = models.BooleanField(null = False, default = False)
 
 	def __unicode__(self):
 		return self.fecha_compra
 
 
+
 class Favorito(models.Model):
-	usuario = models.ForeignKey(User)
+	cliente = models.ForeignKey(User)
 	platillo = models.ForeignKey(Platillo)
 
 	def __unicode__(self):

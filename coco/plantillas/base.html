@@ -21,10 +21,15 @@
 	<link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/ui-lightness/jquery-ui-1.8.22.custom.css">
 	<link rel='stylesheet' type='text/css' href='{{STATIC_URL}}css/busquedas.css'>
+	<link rel='stylesheet' type='text/css' href='{{STATIC_URL}}css/jquery.timepicker.css'>
 	<link href='http://fonts.googleapis.com/css?family=Boogaloo' rel='stylesheet' type='text/css'>
 
-	<script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.6.4.js"></script>
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.22.custom.min.js"></script>
+	<script type="text/javascript" src="{{STATIC_URL}}js/jquery.timepicker.js"></script>
+
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var ciudades = [
@@ -114,8 +119,11 @@
 				<div>
 					{% if not user.is_anonymous %}
 						<a href='/salir' id='registro' style='margin: 0 !important;'>Cerrar Sesión</a>
-						<a href='/panel/datos' id='registro' style='margin: 0 38px !important;'>Mi Cuenta</a>
-
+						{% if pkt == 2 %}
+							<a href='/clientes' id='registro' style='margin: 0 38px !important;'>Mi Cuenta</a>
+						{% else %}
+							<a href='/mi-negocio/perfil' id='registro' style='margin: 0 38px !important;'>Mi Cuenta</a>
+						{% endif %}
 					{% else %}
 
 						<a href='/registro' id='registro'>Registrate</a>
@@ -140,12 +148,11 @@
 						Total
 						<span>$<span class='suma'>0</span></span>
 					</p>
+					<img src="{{STATIC_URL}}img/ordenar.png" alt="Ordenar" id='ordenar' />
 				</div>
 				
-				<div id='adss'>
-
+				<div id='ads'>
 					<img src='{{STATIC_URL}}img/bb.jpg' />
-
 				</div>
 			</div>
 		</div>

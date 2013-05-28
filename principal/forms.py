@@ -2,11 +2,32 @@
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
-from principal.models import Empresa, Sucursal, Platillo, Horario
+from principal.models import Empresa, Sucursal, Platillo, Horario, Cliente
 
 class BusquedaForm(forms.Form):
 	platillo = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Tengo ganas de...'}))
 	ciudad = forms.CharField(label='', widget=forms.TextInput(attrs={'readonly': 'readonly', 'value': 'Colima'}), required=False)
+
+
+'''
+	Panel Clientes 
+'''
+
+class PerfilClienteForm(ModelForm):
+	class Meta:
+		model = User
+		fields = ('first_name', 'last_name', 'email')
+
+
+class DatosClienteForm(ModelForm):
+	class Meta:
+		model = Cliente
+		exclude = ('usuario')
+
+
+'''
+	Fin Panel Clientes
+'''
 
 
 class PerfilForm(ModelForm):
@@ -19,6 +40,12 @@ class EmpresaForm(ModelForm):
 	class Meta:
 		model = Empresa
 		exclude = ('slug', 'usuario', 'estatus', 'paquete')
+
+
+class EmpresaAnunciaForm(ModelForm):
+	class Meta:
+		model = Empresa
+		exclude = ('slug', 'usuario', 'estatus', 'paquete', 'entrega', 'compra_minima', 'costo_envio')
 
 
 class SucursalForm(ModelForm):
