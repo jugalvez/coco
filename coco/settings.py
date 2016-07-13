@@ -14,7 +14,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Julio Galvez', 'snowcol@gmail.com'),
+    ('Julio Galvez', 'email@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -162,10 +162,10 @@ LOGGING = {
 }
 
 
-# Configuraciones para E-mail
+# Configuraciones para E-mail desde Gmail
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ceogalco@gmail.com'
-EMAIL_HOST_PASSWORD = 'seogalco85'
+EMAIL_HOST_USER = 'EMAIL'
+EMAIL_HOST_PASSWORD = 'PASS'
 EMAIL_PORT = 587
